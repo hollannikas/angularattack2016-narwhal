@@ -1,3 +1,5 @@
+@import url('floor.css');
+
 /* Master Styles */
 h1 {
   color: #369;
@@ -20,11 +22,6 @@ body, input[text], button {
   font-family: Cambria, Georgia;
 }
 
-.f {
-  background-image: url('app/resources/floor.jpg');
-  width: 32px;
-  height: 32px;
-}
 
 .w_cul {
   background-image: url('app/resources/wall_corner_upper_left.png');
@@ -106,7 +103,7 @@ body, input[text], button {
   background-blend-mode: color-burn;
   background-color: goldenrod;
   background-image: url('app/resources/coin.jpg');
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
 }
 

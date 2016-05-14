@@ -1,0 +1,72 @@
+
+.f_cul {
+  background-image: url('app/resources/floor_corner_upper_left.png');
+  background-size:contain;
+  width: 32px;
+  height: 32px;
+}
+
+.f_cur {
+  background-image: url('app/resources/floor_corner_upper_right.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+.f_cdl {
+  background-image: url('app/resources/floor_corner_down_left.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+.f_cdr {
+  background-image: url('app/resources/floor_corner_down_right.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+.fu {
+  background-image: url('app/resources/floor_1.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+.fd {
+  background-image: url('app/resources/fd.png');
+  background-size:contain;
+  width: 32px;
+  height: 32px;
+}
+
+
+.f {
+  background-image: url('app/resources/floor_3.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+
+.fl {
+  background-image: url('app/resources/floor_left.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+.fr {
+  background-image: url('app/resources/floor_2.png');
+  background-size: contain;
+
+  width: 32px;
+  height: 32px;
+}

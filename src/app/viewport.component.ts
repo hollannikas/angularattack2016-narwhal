@@ -7,6 +7,8 @@ import {NPCService} from "./npc/shared/npc.service";
 import {Bat} from "./npc/shared/bat.model";
 import {Player} from "./player/shared/player.model";
 import {DungeonMap, Tile} from "./shared/map.model";
+import {NPC} from "./npc/shared/npc.model";
+import {Spider} from "./npc/shared/spider.model";
 
 @Component({
   selector: 'sv-viewport',
@@ -22,7 +24,7 @@ export class ViewportComponent {
 
   private player:Player;
 
-  private bat:Bat;
+  private npcs:NPC[];
 
   constructor(private playerService:PlayerService, private npcService:NPCService) {
 
@@ -33,10 +35,6 @@ export class ViewportComponent {
 
     this.playerService.player$.subscribe(p => {
       this.player = p;
-    });
-
-    this.npcService.npc$.subscribe(l => {
-      this.bat = l;
     });
 
     this.restartGame();
@@ -72,11 +70,24 @@ export class ViewportComponent {
 
   restartGame() {
     this.playerService.setStartLocation({x: 1, y: 1});
-    this.bat = new Bat();
-    this.bat.location = {x: 5, y: 5};
-    this.bat.direction = Direction.DOWN;
-    this.bat.name = "XX";
-    this.npcService.addNpc(this.bat);
+    // TODO add reset on service?
+    this.npcService.reset();
+
+    this.npcService.npc$.subscribe(l => {
+      this.npcs = l;
+    });
+
+    const bat = new Bat();
+    bat.location = {x: 5, y: 5};
+    bat.direction = Direction.DOWN;
+    bat.name = "BB";
+    this.npcService.addNpc(bat);
+
+    const spider = new Spider();
+    spider.location = {x: 7, y: 6};
+    spider.direction = Direction.RIGHT;
+    spider.name = "SS";
+    this.npcService.addNpc(spider);
   }
 
   drawPlayer(viewport:Tile[][]) {
@@ -84,7 +95,9 @@ export class ViewportComponent {
   }
 
   drawNPCs(viewport:Tile[][]) {
-    viewport[this.bat.location.y][this.bat.location.x].npc = this.bat;
+    this.npcs.forEach((npc) => {
+      viewport[npc.location.y][npc.location.x].npc = npc;
+    })
   }
 
   checkPlayerWallCollision(location:Location):boolean {
@@ -106,10 +119,12 @@ export class ViewportComponent {
   }
 
   checkPlayerNPCCollision() {
-    if (this.bat.location.x == this.player.location.x
-      && this.bat.location.y == this.player.location.y) {
-      return true;
-    }
+    this.npcs.forEach((npc) => {
+      if (npc.location.x == this.player.location.x
+        && npc.location.y == this.player.location.y) {
+        return true;
+      }
+    })
     return false;
   }
 
@@ -125,9 +140,20 @@ export class ViewportComponent {
   }
 
   canPlayerSelectNPC() {
-    //if(this.bat.location.x == this.player.location.x && this.bat.location){
+    //this.npcs.forEach((npc) => {
+      //if(npc.location.x == this.player.location.x && npc.location){
 
-    //}
+      //}
+    //});
+  }
+
+  moveNPCs() {
+    this.npcs.forEach((npc) => {
+      if (this.checkNPCWallCollision(this.npcService.nextLocation(npc.direction, npc))) {
+        this.npcService.changeDirection(npc);
+      }
+      this.npcService.move(npc);
+    });
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -166,10 +192,7 @@ export class ViewportComponent {
     if (this.canPlayerSelectNPC()) {
 
     } else if (this.isPlayerMove(event)) {
-      if (this.checkNPCWallCollision(this.npcService.nextLocation(this.bat.direction))) {
-        this.npcService.changeDirection();
-      }
-      this.npcService.move();
+      this.moveNPCs();
       if (this.checkPlayerNPCCollision()) {
         alert("Arrrrgh! I am DEAD.");
         this.restartGame();

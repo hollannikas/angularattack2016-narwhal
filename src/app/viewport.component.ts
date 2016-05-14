@@ -6,7 +6,6 @@ import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
 import {Bat} from "./npc/shared/bat.model";
 import {Player} from "./player/shared/player.model";
-import {DungeonMap} from "./shared/map.model";
 
 @Component({
   selector: 'sv-viewport',
@@ -67,7 +66,7 @@ export class ViewportComponent {
       viewport[object.location.x][object.location.y] = "coin";
     });
   }
-  
+
   restartGame() {
     this.playerService.setStartLocation({x: 1, y: 1});
     this.bat = new Bat();
@@ -75,7 +74,6 @@ export class ViewportComponent {
     this.bat.direction = Direction.DOWN;
     this.bat.name = "man";
     this.npcService.addBat(this.bat);
-
   }
 
   drawPlayer(viewport:string[][]) {
@@ -88,17 +86,16 @@ export class ViewportComponent {
 
   checkPlayerWallCollision(location:Location):boolean {
     const nextTile = this.map.floorLayer[location.y][location.x];
-    let collision = (nextTile == 'w');
+    let collision = nextTile.startsWith('w');
     if (collision) {
-      alert("Damn wall!")
+      console.log("Damn wall!")
     }
     return collision;
   }
 
   checkNPCWallCollision(location:Location):boolean {
     const nextTile = this.map.floorLayer[location.y][location.x];
-    let collision = (nextTile == 'w');
-    console.log(location);
+    let collision = nextTile.startsWith('w');
     if (collision) {
       console.log("Uuuhh not that way");
     }
@@ -122,6 +119,10 @@ export class ViewportComponent {
         return true;
     }
     return false;
+  }
+
+  canPlayerSelectNPC() {
+    // TODO 
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -157,8 +158,9 @@ export class ViewportComponent {
         break;
       // this.playerService.??();
     }
+    if (this.canPlayerSelectNPC()) {
 
-    if (this.isPlayerMove(event)) {
+    } else if (this.isPlayerMove(event)) {
       if (this.checkNPCWallCollision(this.npcService.nextLocation(this.bat.direction))) {
         this.npcService.changeDirection();
       }

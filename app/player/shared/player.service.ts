@@ -2,8 +2,8 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {PlayerStatus} from "./player-status.model";
 import {PlayerLocation} from "./player-location.model";
-import {Direction} from "../../constants";
 import "rxjs/add/operator/share";
+import {Direction} from "../../constants";
 
 
 @Injectable()

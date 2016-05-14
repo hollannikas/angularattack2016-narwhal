@@ -18,6 +18,8 @@ export class ViewportComponent {
 
   private playerLocation:Location;
 
+  private batLocation:Location;
+
   constructor(private playerService:PlayerService) {
 
   }
@@ -29,6 +31,8 @@ export class ViewportComponent {
     });
     // TODO set start location of player
     this.playerService.setStartLocation({x: 1, y: 1});
+
+    this.batLocation = {x: 5, y: 5};
   }
 
   getMap():string[][] {
@@ -43,12 +47,17 @@ export class ViewportComponent {
     });
 
     this.drawPlayer(viewport);
+    this.drawBat(viewport);
     // TODO add layers here (NPC, objects, etc.)
     return viewport;
   }
 
   drawPlayer(viewport:string[][]) {
     viewport[this.playerLocation.y][this.playerLocation.x] = 'p';
+  }
+
+  drawBat(viewport:string[][]) {
+    viewport[this.batLocation.y][this.batLocation.x] = 'b';
   }
 
   checkWallCollision(location:Location):boolean {

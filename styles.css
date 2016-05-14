@@ -50,3 +50,11 @@ body, input[text], button {
   height: 64px;
 }
 
+.b {
+  background-blend-mode: color-burn;
+  background-color: green;
+  background-image: url('app/resources/bat.jpg');
+  width: 64px;
+  height: 64px;
+}
+

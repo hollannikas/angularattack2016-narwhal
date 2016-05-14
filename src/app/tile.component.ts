@@ -1,12 +1,13 @@
 import {Component, Input} from "@angular/core";
+import {Tile} from "./shared/map.model";
 
 @Component({
   selector: 'sv-tile',
   templateUrl: 'app/tile.component.html'
 })
-export class TileComponent implements OnInit {
+export class TileComponent {
   @Input()
-  id:string;
+  tile:Tile;
 
   @Input()
   index:number;
@@ -18,7 +19,7 @@ export class TileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.id + " " + this.index + " " + this.isLastOfRow);
+    console.log(this.tile.className + " " + this.index + " " + this.isLastOfRow);
 
   }
 }

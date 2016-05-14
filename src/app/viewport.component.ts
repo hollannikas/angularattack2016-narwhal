@@ -6,7 +6,7 @@ import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
 import {Bat} from "./npc/shared/bat.model";
 import {Player} from "./player/shared/player.model";
-import {DungeonMap} from "./shared/map.model";
+import {DungeonMap, Tile} from "./shared/map.model";
 
 @Component({
   selector: 'sv-viewport',
@@ -42,13 +42,15 @@ export class ViewportComponent {
     this.restartGame();
   }
 
-  getMap():string[][] {
+  getMap():Tile[][] {
     let viewport = [];
     // deep copy
     this.map.floorLayer.forEach((row) => {
       let targetRow = [];
-      row.forEach((tile) => {
-        targetRow.push(tile);
+      row.forEach((originalTile) => {
+        const copyTile = new Tile();
+        copyTile.className = originalTile.className;
+        targetRow.push(copyTile);
       });
       viewport.push(targetRow);
     });
@@ -64,7 +66,7 @@ export class ViewportComponent {
     console.log("Map " + map);
     map.objects.forEach((object) => {
       // TODO map string from ObjectType enum
-      viewport[object.location.x][object.location.y] = "coin";
+      viewport[object.location.x][object.location.y].object = object;
     });
   }
 
@@ -73,21 +75,21 @@ export class ViewportComponent {
     this.bat = new Bat();
     this.bat.location = {x: 5, y: 5};
     this.bat.direction = Direction.DOWN;
-    this.bat.name = "man";
+    this.bat.name = "XX";
     this.npcService.addBat(this.bat);
   }
 
-  drawPlayer(viewport:string[][]) {
-    viewport[this.player.location.y][this.player.location.x] = 'p';
+  drawPlayer(viewport:Tile[][]) {
+    viewport[this.player.location.y][this.player.location.x].hasPlayer = true;
   }
 
-  drawBat(viewport:string[][]) {
-    viewport[this.bat.location.y][this.bat.location.x] = 'b';
+  drawBat(viewport:Tile[][]) {
+    viewport[this.bat.location.y][this.bat.location.x].npc = this.bat;
   }
 
   checkPlayerWallCollision(location:Location):boolean {
     const nextTile = this.map.floorLayer[location.y][location.x];
-    let collision = nextTile.startsWith('w');
+    let collision = nextTile.className.startsWith('w');
     if (collision) {
       console.log("Damn wall!")
     }
@@ -96,7 +98,7 @@ export class ViewportComponent {
 
   checkNPCWallCollision(location:Location):boolean {
     const nextTile = this.map.floorLayer[location.y][location.x];
-    let collision = nextTile.startsWith('w');
+    let collision = nextTile.className.startsWith('w');
     if (collision) {
       console.log("Uuuhh not that way");
     }

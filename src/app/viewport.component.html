@@ -3,6 +3,6 @@
 <div>Bat: X:{{bat.location.x}},Y:{{bat.location.y}}</div>
 <div *ngFor="let row of getMap()" style="display: flex; flex-direction: row">
   <div *ngFor="let tile of row; let i = index; let last = last;" style="display: flex; flex-direction: column">
-    <sv-tile [id]="tile" [index]="i" [isLastOfRow]="last"></sv-tile>
+    <sv-tile [tile]="tile" [index]="i" [isLastOfRow]="last"></sv-tile>
   </div>
 </div>

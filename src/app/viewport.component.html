@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <div>Player: X:{{player.location.x}},Y:{{player.location.y}}</div>
-<div>Bat: X:{{bat.location.x}},Y:{{bat.location.y}}</div>
+<div *ngFor="let npc of npcs">
+  {{npc.name}}: X:{{npc.location.x}},Y:{{npc.location.y}}
+</div>
+
 <div *ngFor="let row of getMap()" style="display: flex; flex-direction: row">
   <div *ngFor="let tile of row; let i = index; let last = last;" style="display: flex; flex-direction: column">
     <sv-tile [tile]="tile" [index]="i" [isLastOfRow]="last"></sv-tile>

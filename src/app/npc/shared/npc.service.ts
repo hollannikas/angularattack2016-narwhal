@@ -1,19 +1,19 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Location} from "../../shared/location.model";
-import {Bat} from "./bat.model";
 import {Direction} from "../../constants";
 import "rxjs/add/operator/share";
+import {NPC} from "./npc.model";
 
 
 @Injectable()
 export class NPCService {
 
-  public npc$:Observable<Bat>;
+  public npc$:Observable<NPC[]>;
 
   private npcObserver:any;
 
-  private npc:Bat;
+  private npcs:NPC[] = [];
 
   constructor() {
 
@@ -23,24 +23,28 @@ export class NPCService {
 
   }
 
-  public addBat(bat:Bat) {
-    this.npc = bat;
-    this.npcObserver.next(this.npc);
+  public reset() {
+    this.npcs = [];
   }
 
-  public nextFollowLocation(location:Location):Location {
+  public addNpc(npc:NPC) {
+    this.npcs.push(npc);
+    this.npcObserver.next(this.npcs);
+  }
+
+  public nextFollowLocation(location:Location, npc:NPC):Location {
     let distanceX = this.getDistanceX(location);
     let distanceY = this.getDistanceY(location);
     if (distanceX < distanceY) {
       // move Y
-      if (this.npc.location.y > location.y) {
+      if (npc.location.y > location.y) {
         location.y++;
       } else {
         location.y--;
       }
     } else {
       // move X also moves x if
-      if (this.npc.location.y > location.y) {
+      if (npc.location.y > location.y) {
         location.y++;
       } else {
         location.y--;
@@ -49,31 +53,31 @@ export class NPCService {
     return location;
   }
 
-  private getDistanceX(location:Location):number {
+  private getDistanceX(location:Location, npc:NPC):number {
     
     let distanceX:number;
-    if (this.npc.location.x > location.x) {
-      distanceX = this.npc.location.x - location.x;
+    if (npc.location.x > location.x) {
+      distanceX = npc.location.x - location.x;
     } else {
-      distanceX = location.x - this.npc.location.x;
+      distanceX = location.x - npc.location.x;
     }
     return distanceX;
   }
 
-  private getDistanceY(location:Location):number {
+  private getDistanceY(location:Location, npc:NPC):number {
     let distanceY:number;
-    if (this.npc.location.y > location.y) {
-      distanceY = this.npc.location.y - location.y;
+    if (npc.location.y > location.y) {
+      distanceY = npc.location.y - location.y;
     } else {
-      distanceY = location.y - this.npc.location.y;
+      distanceY = location.y - npc.location.y;
     }
     return distanceY;
   }
 
-  public nextLocation(direction:Direction) {
+  public nextLocation(direction:Direction, npc:NPC) {
     let location:Location = new Location();
-    location.x = this.npc.location.x;
-    location.y = this.npc.location.y;
+    location.x = npc.location.x;
+    location.y = npc.location.y;
     switch (direction) {
       case Direction.DOWN:
         location.y++;
@@ -91,15 +95,15 @@ export class NPCService {
     return location;
   }
 
-  public changeDirection() {
-    this.npc.changeDirection();
+  public changeDirection(npc:NPC) {
+    npc.changeDirection();
   }
 
-  public move() {
-    let location:Location = this.nextLocation(this.npc.direction);
-    this.npc.location.x = location.x;
-    this.npc.location.y = location.y;
-    this.npcObserver.next(this.npc);
+  public move(npc:NPC) {
+    let location:Location = this.nextLocation(npc.direction, npc);
+    npc.location.x = location.x;
+    npc.location.y = location.y;
+    this.npcObserver.next(this.npcs);
   }
 
 }

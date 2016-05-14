@@ -2,11 +2,11 @@ import {CharacterType} from "../../shared/character.model";
 import {NPC} from "./npc.model";
 import {Direction} from "../../constants";
 
-export class Bat extends NPC {
+export class Spider extends NPC {
 
   constructor() {
     super();
-    this.type = CharacterType.BAT;
+    this.type = CharacterType.SPIDER;
   }
 
   public changeDirection() {

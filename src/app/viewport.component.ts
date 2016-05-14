@@ -6,6 +6,7 @@ import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
 import {Bat} from "./npc/shared/bat.model";
 import {Player} from "./player/shared/player.model";
+import {DungeonMap} from "./shared/map.model";
 
 @Component({
   selector: 'sv-viewport',
@@ -122,7 +123,9 @@ export class ViewportComponent {
   }
 
   canPlayerSelectNPC() {
-    // TODO 
+    //if(this.bat.location.x == this.player.location.x && this.bat.location){
+
+    //}
   }
 
   @HostListener('window:keydown', ['$event'])

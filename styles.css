@@ -4,14 +4,17 @@ h1 {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 250%;
 }
+
 h2, h3 {
   color: #444;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
 }
+
 body {
   margin: 2em;
 }
+
 body, input[text], button {
   color: #888;
   font-family: Cambria, Georgia;
@@ -35,6 +38,14 @@ body, input[text], button {
   background-blend-mode: color-burn;
   background-color: black;
   background-image: url('app/resources/floor.jpg');
+  width: 64px;
+  height: 64px;
+}
+
+.p {
+  background-blend-mode: color-burn;
+  background-color: red;
+  background-image: url('app/resources/player.jpg');
   width: 64px;
   height: 64px;
 }

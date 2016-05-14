@@ -40,7 +40,7 @@ export class PlayerService {
   public move(direction:Direction) {
     switch (direction) {
       case Direction.DOWN:
-        this.location.y--;
+        this.location.y++;
         break;
       case Direction.LEFT:
         this.location.x--;
@@ -49,7 +49,7 @@ export class PlayerService {
         this.location.x++;
         break;
       case Direction.UP:
-        this.location.y++;
+        this.location.y--;
         break;
     }
     this.locationObserver.next(this.location);

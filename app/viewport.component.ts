@@ -19,7 +19,7 @@ export class ViewportComponent {
   private playerLocation:PlayerLocation;
 
   constructor(private playerService:PlayerService) {
-    
+
   }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class ViewportComponent {
       this.playerLocation = l;
     });
     // TODO set start location of player
-    this.playerService.setStartLocation({x: 10, y: 10});
+    this.playerService.setStartLocation({x: 2, y: 2});
   }
 
   getMap():string[][] {
@@ -41,8 +41,14 @@ export class ViewportComponent {
       });
       viewport.push(targetRow);
     });
-    // TODO add layers here (NPC, player, objects, etc.)
+
+    this.drawPlayer(viewport);
+    // TODO add layers here (NPC, objects, etc.)
     return viewport;
+  }
+
+  drawPlayer(viewport:string[][]) {
+    viewport[this.playerLocation.y][this.playerLocation.x] = 'p';
   }
 
   @HostListener('window:keydown', ['$event'])

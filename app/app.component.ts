@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 import {ViewportComponent} from "./viewport.component";
 
 @Component({
@@ -11,8 +11,9 @@ export class AppComponent {
    * w = wall
    * f = floor
    * a = abyss
-   * 
-     */
+   * p = player
+   *
+   */
   dungeonMap:string[][] = [
     ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
     ['w', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w'],

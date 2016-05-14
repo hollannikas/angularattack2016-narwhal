@@ -1,19 +1,19 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Location} from "../../shared/location.model";
-import {Bat} from "./bat.model";
 import {Direction} from "../../constants";
 import "rxjs/add/operator/share";
+import {NPC} from "./npc.model";
 
 
 @Injectable()
 export class NPCService {
 
-  public npc$:Observable<Bat>;
+  public npc$:Observable<NPC>;
 
   private npcObserver:any;
 
-  private npc:Bat;
+  private npc:NPC;
 
   constructor() {
 
@@ -23,8 +23,8 @@ export class NPCService {
 
   }
 
-  public addBat(bat:Bat) {
-    this.npc = bat;
+  public addNpc(npc:NPC) {
+    this.npc = npc;
     this.npcObserver.next(this.npc);
   }
 

@@ -1,9 +1,11 @@
+import {Location} from "./location.model";
 export enum CharacterType {
   PLAYER,
-  BAT
+  BAT,
+  SPIDER
 }
 
-export class Character {
+export abstract class Character {
   type:CharacterType;
   location:Location;
 }

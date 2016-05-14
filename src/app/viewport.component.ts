@@ -56,13 +56,13 @@ export class ViewportComponent {
     });
 
     this.drawPlayer(viewport);
-    this.drawBat(viewport);
+    this.drawNPCs(viewport);
     this.drawObjects(viewport, this.map);
     return viewport;
   }
 
 
-  drawObjects(viewport:string[][], map:DungeonMap) {
+  drawObjects(viewport:Tile[][], map:DungeonMap) {
     console.log("Map " + map);
     map.objects.forEach((object) => {
       // TODO map string from ObjectType enum
@@ -76,14 +76,14 @@ export class ViewportComponent {
     this.bat.location = {x: 5, y: 5};
     this.bat.direction = Direction.DOWN;
     this.bat.name = "XX";
-    this.npcService.addBat(this.bat);
+    this.npcService.addNpc(this.bat);
   }
 
   drawPlayer(viewport:Tile[][]) {
     viewport[this.player.location.y][this.player.location.x].hasPlayer = true;
   }
 
-  drawBat(viewport:Tile[][]) {
+  drawNPCs(viewport:Tile[][]) {
     viewport[this.bat.location.y][this.bat.location.x].npc = this.bat;
   }
 

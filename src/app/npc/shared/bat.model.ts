@@ -1,9 +1,8 @@
+import {CharacterType} from "../../shared/character.model";
+import {NPC} from "./npc.model";
 import {Direction} from "../../constants";
-import {Character, CharacterType} from "../../shared/character.model";
 
-export class Bat extends Character {
-  name:string;
-  direction:Direction;
+export class Bat extends NPC {
 
   constructor() {
     super();

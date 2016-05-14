@@ -1,6 +1,42 @@
-.idea
-/typings/
-node_modules
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/node_modules
+/bower_components
+
+# IDEs and editors
+/.idea
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
 npm-debug.log
-app/**/*.js
-app/**/*.js.map
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+#System Files
+.DS_Store
+
+#js files
+/src/app/**/*.js
+/src/app/**/*.map
+/src/main.js
+/src/main.js.map
+/src/system-config.js
+/src/system-config.js.map
+/src/environment.js
+/src/environment.js.map
+/config/environment.dev.js
+/config/environment.dev.js.map
+/config/environment.prod.js
+/config/environment.prod.js.map

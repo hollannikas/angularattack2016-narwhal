@@ -37,21 +37,31 @@ export class PlayerService {
     this.locationObserver.next(this.location);
   }
 
-  public move(direction:Direction) {
+  public nextLocation(direction:Direction) {
+    let location:PlayerLocation = new PlayerLocation();
+    location.x = this.location.x;
+    location.y = this.location.y;
     switch (direction) {
       case Direction.DOWN:
-        this.location.y++;
+        location.y++;
         break;
       case Direction.LEFT:
-        this.location.x--;
+        location.x--;
         break;
       case Direction.RIGHT:
-        this.location.x++;
+        location.x++;
         break;
       case Direction.UP:
-        this.location.y--;
+        location.y--;
         break;
     }
+    return location;
+  }
+
+  public move(direction:Direction) {
+    let location:PlayerLocation = this.nextLocation(direction);
+    this.location.x = location.x;
+    this.location.y = location.y;
     this.locationObserver.next(this.location);
   }
 

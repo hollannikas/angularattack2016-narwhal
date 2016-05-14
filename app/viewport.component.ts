@@ -28,7 +28,7 @@ export class ViewportComponent {
       this.playerLocation = l;
     });
     // TODO set start location of player
-    this.playerService.setStartLocation({x: 2, y: 2});
+    this.playerService.setStartLocation({x: 1, y: 1});
   }
 
   getMap():string[][] {
@@ -51,25 +51,39 @@ export class ViewportComponent {
     viewport[this.playerLocation.y][this.playerLocation.x] = 'p';
   }
 
+  checkWallCollision(location:PlayerLocation):boolean {
+    const nextTile = this.map[location.y][location.x];
+    let collision = (nextTile == 'w');
+    if (collision) {
+      alert("Damn wall")
+    }
+    return collision;
+  }
+
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event:KeyboardEvent) {
     event.preventDefault();
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
         console.log(Direction.DOWN);
-        this.playerService.move(Direction.DOWN);
+        if (!this.checkWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
+          this.playerService.move(Direction.DOWN);
+        }
         break;
       case Key.ARROW_UP:
-        console.log(Direction.UP);
-        this.playerService.move(Direction.UP);
+        if (!this.checkWallCollision(this.playerService.nextLocation(Direction.UP))) {
+          this.playerService.move(Direction.UP);
+        }
         break;
       case Key.ARROW_LEFT:
-        console.log(Direction.LEFT);
-        this.playerService.move(Direction.LEFT);
+        if (!this.checkWallCollision(this.playerService.nextLocation(Direction.LEFT))) {
+          this.playerService.move(Direction.LEFT);
+        }
         break;
       case Key.ARROW_RIGHT:
-        console.log(Direction.RIGHT);
-        this.playerService.move(Direction.RIGHT);
+        if (!this.checkWallCollision(this.playerService.nextLocation(Direction.RIGHT))) {
+          this.playerService.move(Direction.RIGHT);
+        }
         break;
       case Key.SPACE:
         console.log("Fire!!!");

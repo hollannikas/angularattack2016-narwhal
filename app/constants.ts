@@ -1,15 +1,16 @@
-module Direction {
-  export var UP = "up";
-  export var DOWN = "down";
-  export var LEFT = "left";
-  export var RIGHT = "right";
+export enum Direction {
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT
 }
 
-module Key {
-  export var ARROW_LEFT = 37;
-  export var ARROW_RIGHT = 39;
-  export var ARROW_UP = 38;
-  export var ARROW_DOWN = 40;
-  export var SPACE = 32;
-  export var ENTER = 13;
+
+export class Key {
+  public static ARROW_LEFT = 37;
+  public static ARROW_RIGHT = 39;
+  public static ARROW_UP = 38;
+  public static ARROW_DOWN = 40;
+  public static SPACE = 32;
+  public static ENTER = 13;
 }

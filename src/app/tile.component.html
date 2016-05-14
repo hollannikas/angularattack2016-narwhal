@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <div class="{{tile.className}}">
-  <div *ngIf="tile.hasPlayer">PP</div>
+  <div *ngIf="tile.hasPlayer" class="player"></div>
   <div *ngIf="tile.npc">{{tile.npc.name}}</div>
   <div *ngIf="tile.object">OO</div>
 </div>

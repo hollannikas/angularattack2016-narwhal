@@ -83,13 +83,24 @@ body, input[text], button {
   height: 64px;
 }
 
-.p {
-  background-blend-mode: color-burn;
-  background-color: red;
-  background-image: url('app/resources/player.jpg');
+@-webkit-keyframes swap {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -128px;
+  }
+
+}
+
+
+.player {
+  background-image: url('app/resources/player3.png');
   width: 64px;
   height: 64px;
-}
+
+  -webkit-animation: swap .8s steps(2) infinite;}
+
 
 .b {
   background-blend-mode: color-burn;

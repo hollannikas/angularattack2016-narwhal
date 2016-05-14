@@ -3,6 +3,7 @@ import {TileComponent} from "./tile.component";
 import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
 import {Location} from "./shared/location.model";
+import {NPCService} from "./npc/shared/npc.service";
 
 @Component({
   selector: 'sv-viewport',
@@ -20,19 +21,23 @@ export class ViewportComponent {
 
   private batLocation:Location;
 
-  constructor(private playerService:PlayerService) {
+  constructor(private playerService:PlayerService, private npcService:NPCService) {
 
   }
 
   ngOnInit() {
     console.log("ngOnInit ViewportComponent")
+
     this.playerService.location$.subscribe(l => {
       this.playerLocation = l;
     });
-    // TODO set start location of player
     this.playerService.setStartLocation({x: 1, y: 1});
 
-    this.batLocation = {x: 5, y: 5};
+    this.npcService.location$.subscribe(l => {
+      this.batLocation = l;
+    });
+    this.npcService.setStartLocation({x: 5, y: 5});
+
   }
 
   getMap():string[][] {
@@ -71,6 +76,7 @@ export class ViewportComponent {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event:KeyboardEvent) {
+    console.log(event.keyCode);
     event.preventDefault();
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
@@ -96,10 +102,14 @@ export class ViewportComponent {
         break;
       case Key.SPACE:
         console.log("Fire!!!");
+        break;
       // this.playerService.trigger();
       case Key.ENTER:
         console.log("This probably does something");
+        break;
       // this.playerService.??();
     }
+    // TODO only move if player moved?
+    this.npcService.move(this.playerService.nextFollowLocation(this.batLocation));
   }
 }

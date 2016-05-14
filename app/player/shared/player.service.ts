@@ -37,6 +37,47 @@ export class PlayerService {
     this.locationObserver.next(this.location);
   }
 
+  public nextFollowLocation(location:Location):Location {
+    let distanceX = this.getDistanceX(location);
+    let distanceY = this.getDistanceY(location);
+    if (distanceX < distanceY) {
+      // move Y
+      if (this.location.y > location.y) {
+        location.y++;
+      } else {
+        location.y--;
+      }
+    } else {
+      // move X also moves x if
+      if (this.location.y > location.y) {
+        location.y++;
+      } else {
+        location.y--;
+      }
+    }
+    return location;
+  }
+
+  private getDistanceX(location:Location):number {
+    let distanceX:number;
+    if (this.location.x > location.x) {
+      distanceX = this.location.x - location.x;
+    } else {
+      distanceX = location.x - this.location.x;
+    }
+    return distanceX;
+  }
+
+  private getDistanceY(location:Location):number {
+    let distanceY:number;
+    if (this.location.y > location.y) {
+      distanceY = this.location.y - location.y;
+    } else {
+      distanceY = location.y - this.location.y;
+    }
+    return distanceY;
+  }
+
   public nextLocation(direction:Direction) {
     let location:Location = new Location();
     location.x = this.location.x;

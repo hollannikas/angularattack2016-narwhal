@@ -1,10 +1,14 @@
 import {Direction} from "../../constants";
-import {Location} from "../../shared/location.model";
+import {Character, CharacterType} from "../../shared/character.model";
 
-export class Bat {
+export class Bat extends Character {
   name:string;
   direction:Direction;
-  location:Location;
+
+  constructor() {
+    super();
+    this.type = CharacterType.BAT;
+  }
 
   public changeDirection() {
     switch (this.direction) {

@@ -50,6 +50,7 @@ export class NPCService {
   }
 
   private getDistanceX(location:Location):number {
+    
     let distanceX:number;
     if (this.npc.location.x > location.x) {
       distanceX = this.npc.location.x - location.x;

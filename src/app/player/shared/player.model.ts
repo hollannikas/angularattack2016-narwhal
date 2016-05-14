@@ -1,7 +1,10 @@
-import {Location} from "../../shared/location.model";
+import {Character, CharacterType} from "../../shared/character.model";
 
-export class Player {
-  location:Location;
-  
+export class Player extends Character {
+
+  constructor() {
+    super();
+    this.type = CharacterType.PLAYER;
+  }
 
 }

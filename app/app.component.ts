@@ -1,6 +1,26 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {ViewportComponent} from "./viewport.component";
+
 @Component({
   selector: 'sv-app',
-  template: '<h1>AngularAttack 2016 - TS</h1>'
+  templateUrl: './app/app.component.html',
+  directives: [ViewportComponent]
 })
-export class AppComponent { }
+export class AppComponent {
+  /**
+   * w = wall
+   * f = floor
+   * a = abyss
+   * 
+     */
+  dungeonMap:string[][] = [
+    ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
+    ['w', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w'],
+    ['w', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w'],
+    ['w', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w'],
+    ['w', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w'],
+    ['w', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w'],
+    ['w', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w'],
+    ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w']
+  ];
+}

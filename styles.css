@@ -16,7 +16,26 @@ body, input[text], button {
   color: #888;
   font-family: Cambria, Georgia;
 }
-/*
- * See https://github.com/angular/angular.io/blob/master/public/docs/_examples/styles.css
- * for the full set of master styles used by the documentation samples
- */
+
+.f {
+  background-image: url('app/resources/floor.jpg');
+  width: 64px;
+  height: 64px;
+}
+
+.w {
+  background-blend-mode: color-burn;
+  background-color: brown;
+  background-image: url('app/resources/floor.jpg');
+  width: 64px;
+  height: 64px;
+}
+
+.a {
+  background-blend-mode: color-burn;
+  background-color: black;
+  background-image: url('app/resources/floor.jpg');
+  width: 64px;
+  height: 64px;
+}
+

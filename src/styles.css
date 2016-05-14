@@ -26,32 +26,32 @@ body, input[text], button {
 .w_cul {
   background-image: url('app/resources/wall_corner_upper_left.png');
   background-size:contain;
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .w_cur {
   background-image: url('app/resources/wall_corner_upper_right.png');
   background-size:contain;
 
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .w_cdl {
   background-image: url('app/resources/wall_corner_down_left.png');
   background-size:contain;
 
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .w_cdr {
   background-image: url('app/resources/wall_corner_down_right.png');
   background-size:contain;
 
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 
@@ -59,17 +59,18 @@ body, input[text], button {
   background-image: url('app/resources/wall_b.png');
   background-size:contain;
 
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .w_a {
   background-image: url('app/resources/wall_a.png');
   background-size: contain;
 
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
+
 
 
 
@@ -78,24 +79,24 @@ body, input[text], button {
   background-blend-mode: color-burn;
   background-color: black;
   background-image: url('app/resources/floor.jpg');
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .p {
   background-blend-mode: color-burn;
   background-color: red;
   background-image: url('app/resources/player.jpg');
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 .b {
   background-blend-mode: color-burn;
   background-color: green;
   background-image: url('app/resources/bat.jpg');
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 
 /* Objects */
@@ -103,7 +104,7 @@ body, input[text], button {
   background-blend-mode: color-burn;
   background-color: goldenrod;
   background-image: url('app/resources/coin.jpg');
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
 }
 

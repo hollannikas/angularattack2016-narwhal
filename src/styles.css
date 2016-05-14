@@ -22,39 +22,82 @@ body, input[text], button {
 
 .f {
   background-image: url('app/resources/floor.jpg');
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
 }
 
-.w {
-  background-blend-mode: color-burn;
-  background-color: brown;
-  background-image: url('app/resources/floor.jpg');
-  width: 64px;
-  height: 64px;
+.w_cul {
+  background-image: url('app/resources/wall_corner_upper_left.png');
+  background-size:contain;
+  width: 32px;
+  height: 32px;
 }
+
+.w_cur {
+  background-image: url('app/resources/wall_corner_upper_right.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+.w_cdl {
+  background-image: url('app/resources/wall_corner_down_left.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+.w_cdr {
+  background-image: url('app/resources/wall_corner_down_right.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+
+.w_b {
+  background-image: url('app/resources/wall_b.png');
+  background-size:contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+.w_a {
+  background-image: url('app/resources/wall_a.png');
+  background-size: contain;
+
+  width: 32px;
+  height: 32px;
+}
+
+
+
 
 .a {
   background-blend-mode: color-burn;
   background-color: black;
   background-image: url('app/resources/floor.jpg');
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
 }
 
 .p {
   background-blend-mode: color-burn;
   background-color: red;
   background-image: url('app/resources/player.jpg');
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
 }
 
 .b {
   background-blend-mode: color-burn;
   background-color: green;
   background-image: url('app/resources/bat.jpg');
-  width: 64px;
-  height: 64px;
+  width: 32px;
+  height: 32px;
 }
 

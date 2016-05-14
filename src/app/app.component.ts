@@ -5,6 +5,7 @@ import {ViewportComponent} from "./viewport.component";
   selector: 'sv-app',
   templateUrl: './app/app.component.html',
   directives: [ViewportComponent]
+
 })
 export class AppComponent {
   /**
@@ -15,13 +16,13 @@ export class AppComponent {
    *
    */
   dungeonMap:string[][] = [
-    ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
-    ['w', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w'],
-    ['w', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w'],
-    ['w', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w'],
-    ['w', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w'],
-    ['w', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w'],
-    ['w', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w'],
-    ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w']
+    ['w_cul', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_cur'],
+    ['w_a', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w_a'],
+    ['w_a', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w_a'],
+    ['w_a', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w_a'],
+    ['w_a', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w_a'],
+    ['w_a', 'f', 'f', 'f', 'a', 'f', 'f', 'f', 'f', 'w_a'],
+    ['w_a', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'f', 'w_a'],
+    ['w_cdl', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_cdr']
   ];
 }

@@ -2,7 +2,7 @@
 <div>Player: X:{{player.location.x}},Y:{{player.location.y}}</div>
 <div>Bat: X:{{bat.location.x}},Y:{{bat.location.y}}</div>
 <div *ngFor="let row of getMap()" style="display: flex; flex-direction: row">
-  <div *ngFor="let tile of row" style="display: flex; flex-direction: column">
-    <sv-tile [id]="tile"></sv-tile>
+  <div *ngFor="let tile of row; let i = index; let last = last;" style="display: flex; flex-direction: column">
+    <sv-tile [id]="tile" [index]="i" [isLastOfRow]="last"></sv-tile>
   </div>
 </div>

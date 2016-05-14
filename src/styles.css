@@ -101,3 +101,12 @@ body, input[text], button {
   height: 32px;
 }
 
+/* Objects */
+.coin {
+  background-blend-mode: color-burn;
+  background-color: goldenrod;
+  background-image: url('app/resources/coin.jpg');
+  width: 64px;
+  height: 64px;
+}
+

@@ -6,6 +6,7 @@ import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
 import {Bat} from "./npc/shared/bat.model";
 import {Player} from "./player/shared/player.model";
+import {DungeonMap} from "./shared/map.model";
 
 @Component({
   selector: 'sv-viewport',
@@ -17,7 +18,7 @@ export class ViewportComponent {
 
   // TODO we start out with a single room map, should be multiple rooms
   @Input()
-  map:string[][];
+  map:DungeonMap;
 
   private player:Player;
 
@@ -33,22 +34,18 @@ export class ViewportComponent {
     this.playerService.player$.subscribe(p => {
       this.player = p;
     });
-    this.playerService.setStartLocation({x: 1, y: 1});
 
     this.npcService.npc$.subscribe(l => {
       this.bat = l;
     });
-    this.bat = new Bat();
-    this.bat.location = {x: 5, y: 5};
-    this.bat.direction = Direction.DOWN;
-    this.bat.name = "man";
-    this.npcService.addBat(this.bat);
+
+    this.restartGame();
   }
 
   getMap():string[][] {
     let viewport = [];
     // deep copy
-    this.map.forEach((row) => {
+    this.map.floorLayer.forEach((row) => {
       let targetRow = [];
       row.forEach((tile) => {
         targetRow.push(tile);
@@ -58,8 +55,27 @@ export class ViewportComponent {
 
     this.drawPlayer(viewport);
     this.drawBat(viewport);
-    // TODO add layers here (NPC, objects, etc.)
+    this.drawObjects(viewport, this.map);
     return viewport;
+  }
+
+
+  drawObjects(viewport:string[][], map:DungeonMap) {
+    console.log("Map " + map);
+    map.objects.forEach((object) => {
+      // TODO map string from ObjectType enum
+      viewport[object.location.x][object.location.y] = "coin";
+    });
+  }
+  
+  restartGame() {
+    this.playerService.setStartLocation({x: 1, y: 1});
+    this.bat = new Bat();
+    this.bat.location = {x: 5, y: 5};
+    this.bat.direction = Direction.DOWN;
+    this.bat.name = "man";
+    this.npcService.addBat(this.bat);
+
   }
 
   drawPlayer(viewport:string[][]) {
@@ -71,23 +87,41 @@ export class ViewportComponent {
   }
 
   checkPlayerWallCollision(location:Location):boolean {
-    const nextTile = this.map[location.y][location.x];
+    const nextTile = this.map.floorLayer[location.y][location.x];
     let collision = (nextTile == 'w');
-    console.log(location);
     if (collision) {
-      alert("Damn wall")
+      alert("Damn wall!")
     }
     return collision;
   }
 
   checkNPCWallCollision(location:Location):boolean {
-    const nextTile = this.map[location.y][location.x];
+    const nextTile = this.map.floorLayer[location.y][location.x];
     let collision = (nextTile == 'w');
     console.log(location);
     if (collision) {
-      console.log(location);
+      console.log("Uuuhh not that way");
     }
     return collision;
+  }
+
+  checkPlayerNPCCollision() {
+    if (this.bat.location.x == this.player.location.x
+      && this.bat.location.y == this.player.location.y) {
+      return true;
+    }
+    return false;
+  }
+
+  isPlayerMove(event:KeyboardEvent) {
+    switch (event.keyCode) {
+      case Key.ARROW_DOWN:
+      case Key.ARROW_UP:
+      case Key.ARROW_LEFT:
+      case Key.ARROW_RIGHT:
+        return true;
+    }
+    return false;
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -123,14 +157,17 @@ export class ViewportComponent {
         break;
       // this.playerService.??();
     }
-    // TODO only move if player moved?
-    if (this.checkNPCWallCollision(this.npcService.nextLocation(this.bat.direction))) {
-      console.log("NPC collision");
-      this.npcService.changeDirection();
+
+    if (this.isPlayerMove(event)) {
+      if (this.checkNPCWallCollision(this.npcService.nextLocation(this.bat.direction))) {
+        this.npcService.changeDirection();
+      }
       this.npcService.move();
-    } else {
-      this.npcService.move();
+      if (this.checkPlayerNPCCollision()) {
+        alert("Arrrrgh! I am DEAD.");
+        this.restartGame();
+      }
     }
-    //this.npcService.move(this.npcService.nextFollowLocation(this.playerLocation));
+
   }
 }

@@ -110,6 +110,14 @@ body, input[text], button {
   -webkit-animation: swap .6s steps(2) infinite;
 }
 
+.BB {
+  background-image: url('app/resources/bat.png');
+  width: 64px;
+  height: 64px;
+
+  -webkit-animation: swap .6s steps(2) infinite;
+}
+
 
 .b {
   background-blend-mode: color-burn;

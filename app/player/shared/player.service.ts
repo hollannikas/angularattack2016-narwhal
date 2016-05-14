@@ -32,21 +32,27 @@ export class PlayerService {
 
   }
 
+  public setStartLocation(startLocation:PlayerLocation) {
+    this.location = startLocation;
+    this.locationObserver.next(this.location);
+  }
+
   public move(direction:Direction) {
     switch (direction) {
       case Direction.DOWN:
-        // Handle down
+        this.location.y--;
         break;
       case Direction.LEFT:
-        // Handle left
+        this.location.x--;
         break;
       case Direction.RIGHT:
-        // Handle right
+        this.location.x++;
         break;
       case Direction.UP:
-        // Handle up
+        this.location.y++;
         break;
     }
+    this.locationObserver.next(this.location);
   }
 
 }

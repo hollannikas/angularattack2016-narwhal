@@ -19,7 +19,7 @@ export class ViewportComponent {
   private playerLocation:PlayerLocation;
 
   constructor(private playerService:PlayerService) {
-    // TODO Start observing player coordinates
+    
   }
 
   ngOnInit() {
@@ -27,6 +27,8 @@ export class ViewportComponent {
     this.playerService.location$.subscribe(l => {
       this.playerLocation = l;
     });
+    // TODO set start location of player
+    this.playerService.setStartLocation({x: 10, y: 10});
   }
 
   getMap():string[][] {

@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {PlayerStatus} from "./player-status.model";
-import {PlayerLocation} from "./player-location.model";
-import "rxjs/add/operator/share";
 import {Direction} from "../../constants";
+import {Location} from "../../shared/location.model";
+import "rxjs/add/operator/share";
 
 
 @Injectable()
@@ -15,11 +15,11 @@ export class PlayerService {
 
   private status:PlayerStatus;
 
-  public location$:Observable<PlayerLocation>;
+  public location$:Observable<Location>;
 
   private locationObserver:any;
 
-  private location:PlayerLocation;
+  private location:Location;
 
   constructor() {
     this.status$ = new Observable<any>(observer => {
@@ -32,13 +32,13 @@ export class PlayerService {
 
   }
 
-  public setStartLocation(startLocation:PlayerLocation) {
+  public setStartLocation(startLocation:Location) {
     this.location = startLocation;
     this.locationObserver.next(this.location);
   }
 
   public nextLocation(direction:Direction) {
-    let location:PlayerLocation = new PlayerLocation();
+    let location:Location = new Location();
     location.x = this.location.x;
     location.y = this.location.y;
     switch (direction) {
@@ -59,7 +59,7 @@ export class PlayerService {
   }
 
   public move(direction:Direction) {
-    let location:PlayerLocation = this.nextLocation(direction);
+    let location:Location = this.nextLocation(direction);
     this.location.x = location.x;
     this.location.y = location.y;
     this.locationObserver.next(this.location);

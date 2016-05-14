@@ -2,7 +2,7 @@ import {Component, Input, HostListener} from "@angular/core";
 import {TileComponent} from "./tile.component";
 import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
-import {PlayerLocation} from "./player/shared/player-location.model";
+import {Location} from "./shared/location.model";
 
 @Component({
   selector: 'sv-viewport',
@@ -16,7 +16,7 @@ export class ViewportComponent {
   @Input()
   map:string[][];
 
-  private playerLocation:PlayerLocation;
+  private playerLocation:Location;
 
   constructor(private playerService:PlayerService) {
 
@@ -51,7 +51,7 @@ export class ViewportComponent {
     viewport[this.playerLocation.y][this.playerLocation.x] = 'p';
   }
 
-  checkWallCollision(location:PlayerLocation):boolean {
+  checkWallCollision(location:Location):boolean {
     const nextTile = this.map[location.y][location.x];
     let collision = (nextTile == 'w');
     if (collision) {

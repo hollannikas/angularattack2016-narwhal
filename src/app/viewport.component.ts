@@ -4,6 +4,8 @@ import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
 import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
+import {Bat} from "./npc/shared/bat.model";
+import {Player} from "./player/shared/player.model";
 
 @Component({
   selector: 'sv-viewport',
@@ -17,9 +19,9 @@ export class ViewportComponent {
   @Input()
   map:string[][];
 
-  private playerLocation:Location;
+  private player:Player;
 
-  private batLocation:Location;
+  private bat:Bat;
 
   constructor(private playerService:PlayerService, private npcService:NPCService) {
 
@@ -28,16 +30,19 @@ export class ViewportComponent {
   ngOnInit() {
     console.log("ngOnInit ViewportComponent")
 
-    this.playerService.location$.subscribe(l => {
-      this.playerLocation = l;
+    this.playerService.player$.subscribe(p => {
+      this.player = p;
     });
     this.playerService.setStartLocation({x: 1, y: 1});
 
-    this.npcService.location$.subscribe(l => {
-      this.batLocation = l;
+    this.npcService.npc$.subscribe(l => {
+      this.bat = l;
     });
-    this.npcService.setStartLocation({x: 5, y: 5});
-
+    this.bat = new Bat();
+    this.bat.location = {x: 5, y: 5};
+    this.bat.direction = Direction.DOWN;
+    this.bat.name = "man";
+    this.npcService.addBat(this.bat);
   }
 
   getMap():string[][] {
@@ -58,45 +63,54 @@ export class ViewportComponent {
   }
 
   drawPlayer(viewport:string[][]) {
-    viewport[this.playerLocation.y][this.playerLocation.x] = 'p';
+    viewport[this.player.location.y][this.player.location.x] = 'p';
   }
 
   drawBat(viewport:string[][]) {
-    viewport[this.batLocation.y][this.batLocation.x] = 'b';
+    viewport[this.bat.location.y][this.bat.location.x] = 'b';
   }
 
-  checkWallCollision(location:Location):boolean {
+  checkPlayerWallCollision(location:Location):boolean {
     const nextTile = this.map[location.y][location.x];
     let collision = (nextTile == 'w');
+    console.log(location);
     if (collision) {
       alert("Damn wall")
     }
     return collision;
   }
 
+  checkNPCWallCollision(location:Location):boolean {
+    const nextTile = this.map[location.y][location.x];
+    let collision = (nextTile == 'w');
+    console.log(location);
+    if (collision) {
+      console.log(location);
+    }
+    return collision;
+  }
+
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event:KeyboardEvent) {
-    console.log(event.keyCode);
     event.preventDefault();
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
-        console.log(Direction.DOWN);
-        if (!this.checkWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
+        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
           this.playerService.move(Direction.DOWN);
         }
         break;
       case Key.ARROW_UP:
-        if (!this.checkWallCollision(this.playerService.nextLocation(Direction.UP))) {
+        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.UP))) {
           this.playerService.move(Direction.UP);
         }
         break;
       case Key.ARROW_LEFT:
-        if (!this.checkWallCollision(this.playerService.nextLocation(Direction.LEFT))) {
+        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.LEFT))) {
           this.playerService.move(Direction.LEFT);
         }
         break;
       case Key.ARROW_RIGHT:
-        if (!this.checkWallCollision(this.playerService.nextLocation(Direction.RIGHT))) {
+        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.RIGHT))) {
           this.playerService.move(Direction.RIGHT);
         }
         break;
@@ -110,6 +124,13 @@ export class ViewportComponent {
       // this.playerService.??();
     }
     // TODO only move if player moved?
-    this.npcService.move(this.playerService.nextFollowLocation(this.batLocation));
+    if (this.checkNPCWallCollision(this.npcService.nextLocation(this.bat.direction))) {
+      console.log("NPC collision");
+      this.npcService.changeDirection();
+      this.npcService.move();
+    } else {
+      this.npcService.move();
+    }
+    //this.npcService.move(this.npcService.nextFollowLocation(this.playerLocation));
   }
 }

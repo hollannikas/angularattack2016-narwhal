@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {PlayerStatus} from "./player-status.model";
 import {Direction} from "../../constants";
 import {Location} from "../../shared/location.model";
+import {Player} from "./player.model";
 import "rxjs/add/operator/share";
 
 
@@ -15,73 +16,35 @@ export class PlayerService {
 
   private status:PlayerStatus;
 
-  public location$:Observable<Location>;
+  public player$:Observable<Player>;
 
-  private locationObserver:any;
+  private playerObserver:any;
 
-  private location:Location;
+  private player:Player;
 
   constructor() {
     this.status$ = new Observable<any>(observer => {
       this.statusObserver = observer;
     }).share();
 
-    this.location$ = new Observable<any>(observer => {
-      this.locationObserver = observer;
+    this.player$ = new Observable<any>(observer => {
+      this.playerObserver = observer;
     }).share();
 
   }
 
   public setStartLocation(startLocation:Location) {
-    this.location = startLocation;
-    this.locationObserver.next(this.location);
-  }
-
-  public nextFollowLocation(location:Location):Location {
-    let distanceX = this.getDistanceX(location);
-    let distanceY = this.getDistanceY(location);
-    if (distanceX < distanceY) {
-      // move Y
-      if (this.location.y > location.y) {
-        location.y++;
-      } else {
-        location.y--;
-      }
-    } else {
-      // move X also moves x if
-      if (this.location.y > location.y) {
-        location.y++;
-      } else {
-        location.y--;
-      }
+    if (this.player == null) {
+      this.player = new Player();
     }
-    return location;
-  }
-
-  private getDistanceX(location:Location):number {
-    let distanceX:number;
-    if (this.location.x > location.x) {
-      distanceX = this.location.x - location.x;
-    } else {
-      distanceX = location.x - this.location.x;
-    }
-    return distanceX;
-  }
-
-  private getDistanceY(location:Location):number {
-    let distanceY:number;
-    if (this.location.y > location.y) {
-      distanceY = this.location.y - location.y;
-    } else {
-      distanceY = location.y - this.location.y;
-    }
-    return distanceY;
+    this.player.location = startLocation;
+    this.playerObserver.next(this.player);
   }
 
   public nextLocation(direction:Direction) {
     let location:Location = new Location();
-    location.x = this.location.x;
-    location.y = this.location.y;
+    location.x = this.player.location.x;
+    location.y = this.player.location.y;
     switch (direction) {
       case Direction.DOWN:
         location.y++;
@@ -101,9 +64,9 @@ export class PlayerService {
 
   public move(direction:Direction) {
     let location:Location = this.nextLocation(direction);
-    this.location.x = location.x;
-    this.location.y = location.y;
-    this.locationObserver.next(this.location);
+    this.player.location.x = location.x;
+    this.player.location.y = location.y;
+    this.playerObserver.next(this.player);
   }
 
 }

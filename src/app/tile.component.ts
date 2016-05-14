@@ -19,7 +19,6 @@ export class TileComponent {
   }
 
   ngOnInit() {
-    console.log(this.tile.className + " " + this.index + " " + this.isLastOfRow);
 
   }
 }

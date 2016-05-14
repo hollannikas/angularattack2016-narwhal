@@ -78,7 +78,7 @@ body, input[text], button {
 .a {
   background-blend-mode: color-burn;
   background-color: black;
-  background-image: url('app/resources/floor.jpg');
+  background-image: url('app/resources/floor_3.png');
   width: 64px;
   height: 64px;
 }
@@ -90,8 +90,8 @@ body, input[text], button {
   to {
     background-position-x: -128px;
   }
-
 }
+
 
 
 .player {
@@ -99,7 +99,16 @@ body, input[text], button {
   width: 64px;
   height: 64px;
 
-  -webkit-animation: swap .8s steps(2) infinite;}
+  -webkit-animation: swap .8s steps(2) infinite;
+}
+
+.SS {
+  background-image: url('app/resources/spider.png');
+  width: 64px;
+  height: 64px;
+
+  -webkit-animation: swap .6s steps(2) infinite;
+}
 
 
 .b {

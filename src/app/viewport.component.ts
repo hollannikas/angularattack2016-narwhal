@@ -61,7 +61,7 @@ export class ViewportComponent {
 
 
   drawObjects(viewport:Tile[][], map:DungeonMap) {
-    console.log("Map " + map);
+//    console.log("Map " + map);
     map.objects.forEach((object) => {
       // TODO map string from ObjectType enum
       viewport[object.location.x][object.location.y].object = object;

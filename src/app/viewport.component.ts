@@ -21,6 +21,9 @@ export class ViewportComponent {
   @Input()
   map:DungeonMap;
 
+  @Input()
+  availableCoins:number;
+
   @Output()
   mapChanged:EventEmitter<any> = new EventEmitter();
 
@@ -44,6 +47,10 @@ export class ViewportComponent {
   ngOnChanges(changes:{[propName:string]:SimpleChange}) {
     if (changes['map'] && changes['map'].currentValue && this.initialised) {
       this.resetNPCs();
+      console.log("Relocating");
+      // TODO relocate player
+      this.playerService.setLocation(this.map.playerEntryLocation);
+      this.player.location = this.map.playerEntryLocation;
     }
   }
 
@@ -129,11 +136,14 @@ export class ViewportComponent {
 
   checkPlayerWallCollision(location:Location):boolean {
     const nextTile = this.map.floorLayer[location.y][location.x];
+    if (nextTile.className.startsWith('w')) {
+      this.log("You hit the wall!");
+    }    if (nextTile.className == 'a') {
+      this.log("When you look into an abyss, the abyss also looks into you.");
+    }
+
     let collision = nextTile.className.startsWith('w')
       || nextTile.className == 'a';
-    if (collision) {
-      this.log("You hit the wall!")
-    }
     return collision;
   }
 
@@ -201,13 +211,7 @@ export class ViewportComponent {
     });
 
     // Check if map objective has been reached
-    var coinsLeft = false;
-    this.map.objects.forEach((dungeonObject:DungeonObject) => {
-      if (dungeonObject.type == DungeonObjectType.COIN) {
-        coinsLeft = true;
-      }
-    });
-    this.objectiveReached = !coinsLeft;
+    this.objectiveReached = this.player.coins == this.availableCoins;
   }
 
   handleNPCsMove() {
@@ -222,7 +226,7 @@ export class ViewportComponent {
           }
         } else {
 
-         // this.log(npc.name + ": It's the end of the world, as we know it (And I feel fine)");
+          // this.log(npc.name + ": It's the end of the world, as we know it (And I feel fine)");
           this.npcService.changeDirection(npc);
         }
         if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {
@@ -250,10 +254,13 @@ export class ViewportComponent {
   }
 
   handlePlayerMove(direction:Direction) {
+    console.log("handle player move");
     if (!this.checkPlayerWallCollision(this.playerService.nextLocation(direction))) {
       if (!this.checkPlayerNPCCollision(this.playerService.nextLocation(direction))) {
+        console.log("player move");
         this.playerService.move(direction);
       } else {
+        console.log("NONO");
         let npc:NPC = this.getNPCCloseToPlayer();
         npc.hp--;
         if (npc.isDead()) {

@@ -1,4 +1,4 @@
-import {Component, Input, HostListener, EventEmitter} from "@angular/core";
+import {Component, Input, HostListener} from "@angular/core";
 import {TileComponent} from "./tile.component";
 import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
@@ -33,7 +33,7 @@ export class ViewportComponent {
   private showPlatino = false;
 
   constructor(private playerService:PlayerService, private npcService:NPCService) {
-    
+
   }
 
   ngOnInit() {
@@ -41,10 +41,7 @@ export class ViewportComponent {
 
     this.playerService.player$.subscribe(p => {
       this.player = p;
-      //if (!this.isPlayerCloseToNPC()) {
-      // TODO maybe onlystop moveing selected NPC
-      this.moveNPCs();
-      //}
+      this.handleNPCsMove();
       this.handleObjectCollsions();
     });
 
@@ -86,8 +83,8 @@ export class ViewportComponent {
 
     this.npcService.npc$.subscribe(l => {
       this.npcs = l;
-      //console.log("UPDATE");
       if (this.checkPlayerNPCCollision()) {
+
         this.log("Arrrrgh! I am DEAD.");
 
         //this.restartGame();
@@ -137,6 +134,14 @@ export class ViewportComponent {
     return collision;
   }
 
+  checkNPCPlayerCollision(npcLocation:Location) {
+    if (npcLocation.x === this.player.location.x
+      && npcLocation.y === this.player.location.y) {
+      return true;
+    }
+    return false;
+  }
+
   isPlayerCloseToNPC(location:Location) {
     return this.getNPCCloseToPlayer() != null;
   }
@@ -184,16 +189,21 @@ export class ViewportComponent {
     this.objectiveReached = !coinsLeft;
   }
 
-  moveNPCs() {
+  handleNPCsMove() {
     if (this.npcs) {
       this.npcs.forEach((npc) => {
-        const nextTileLocation = this.npcService.nextLocation(npc.direction, npc);
+        const nextTileLocation = this.npcService.nextLocation(npc);
         const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
         if (npc.checkCollision(nextTile)) {
           this.log(npc.name + ": Uuuhh not that way");
           this.npcService.changeDirection(npc);
         }
-        this.npcService.move(npc);
+        if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {
+          this.player.hp--;
+          this.log("Ouch");
+        } else {
+          this.npcService.move(npc);
+        }
       });
 
     }
@@ -220,7 +230,7 @@ export class ViewportComponent {
           this.removeNPC(npc);
           this.playerService.move(direction);
         } else {
-          this.moveNPCs();
+          this.handleNPCsMove();
         }
       }
     }

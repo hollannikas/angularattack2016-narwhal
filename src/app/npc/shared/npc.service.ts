@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {Location} from "../../shared/location.model";
-import {Direction} from "../../constants";
 import "rxjs/add/operator/share";
 import {NPC} from "./npc.model";
 
@@ -66,7 +65,7 @@ export class NPCService {
     return npc.getDistanceX(location);
   }
 
-  public nextLocation(direction:Direction, npc:NPC) {
+  public nextLocation(npc:NPC) {
     return npc.nextLocation();
   }
 

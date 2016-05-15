@@ -23,7 +23,22 @@
   -->
 </head>
 <body>
-<sv-app>Loading...</sv-app>
+<div class="splashWrapper">
+
+  <div class="splashRow">
+    <div class="angular"></div>
+    <div class="splashBanner">ngDungeon</div>
+    <div class="angular"></div>
+  </div>
+
+  <sv-app class="gamearea">
+    <div class="splashLoading">
+      <div class="player"></div>
+      <div style="padding-left: 10px">Loading...</div>
+    </div>
+  </sv-app>
+  <div class="splashFooter">By Team Narwhal, AngularAttack 2016</div>
+</div>
 
 <script src="vendor/es6-shim/es6-shim.js"></script>
 <script src="vendor/reflect-metadata/Reflect.js"></script>

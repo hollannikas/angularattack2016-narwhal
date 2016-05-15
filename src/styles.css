@@ -26,10 +26,13 @@ h2, h3 {
 }
 
 
-
+html {
+  height: 100%;
+}
 body {
   margin: 2em;
   font-family: '8-bit';
+  height: 100%;
 }
 
 
@@ -38,7 +41,51 @@ body, input[text], button {
   background-color: black;
 }
 
+.splashWrapper {
+  height: 90%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
 
+.splashRow {
+  display: flex;
+  padding-bottom: 100px;
+}
+
+.splashBanner {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  font-size: 27px;
+  align-items:center;
+}
+
+.splashLoading {
+  height: 500px;
+  font-size: 27px;
+  align-items: center;
+  justify-content: center;
+  display: flex
+}
+
+.splashFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.gamearea {
+  align-self: center;
+}
+
+.angular {
+  background-image: url('/app/resources/angular.png');
+  width: 128px;
+  height: 128px;
+}
 
 
 

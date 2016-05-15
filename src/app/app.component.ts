@@ -21,14 +21,14 @@ export class AppComponent {
   constructor() {
     // TODO get map from file
     this.dungeonMap.setFloorMap( [
-      ['w_cul', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_cur'],
+      ['w_cul', 'w_b', 'w_b', 'w_b', 'w_b', 'door', 'w_b', 'w_b', 'w_b', 'w_cur'],
       ['w_a', 'f_cul', 'fu', 'fu', 'fu', 'fu', 'fu', 'fu', 'f_cur', 'w_a'],
       ['w_a', 'fl', 'f', 'f', 'f', 'f', 'f', 'f', 'fr', 'w_a'],
       ['w_a', 'fl', 'f', 'f', 'a', 'f', 'f', 'f', 'fr', 'w_a'],
       ['w_a', 'fl', 'f', 'f', 'a', 'f', 'f', 'f', 'fr', 'w_a'],
       ['w_a', 'fl', 'f', 'f', 'a', 'f', 'f', 'f', 'fr', 'w_a'],
       ['w_a', 'f_cdl', 'fd', 'fd', 'fd', 'fd', 'fd', 'fd', 'f_cdr', 'w_a'],
-      ['w_cdl', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_cdr']
+      ['w_cdl', 'w_b', 'w_b', 'w_b', 'w_b', 'door_open', 'w_b', 'w_b', 'w_b', 'w_cdr']
     ]);
 
     this.dungeonMap.objects.push({ type: DungeonObjectType.COIN, location: { x: 3, y: 3} });

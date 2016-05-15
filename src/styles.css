@@ -1,4 +1,6 @@
 @import url('floor.css');
+@import url('wall.css');
+@import url('characters.css');
 
 /* Master Styles */
 h1 {
@@ -23,55 +25,6 @@ body, input[text], button {
 }
 
 
-.w_cul {
-  background-image: url('app/resources/wall_corner_upper_left.png');
-  background-size:contain;
-  width: 64px;
-  height: 64px;
-}
-
-.w_cur {
-  background-image: url('app/resources/wall_corner_upper_right.png');
-  background-size:contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-.w_cdl {
-  background-image: url('app/resources/wall_corner_down_left.png');
-  background-size:contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-.w_cdr {
-  background-image: url('app/resources/wall_corner_down_right.png');
-  background-size:contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-
-.w_b {
-  background-image: url('app/resources/wall_b.png');
-  background-size:contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-.w_a {
-  background-image: url('app/resources/wall_a.png');
-  background-size: contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-
 
 
 
@@ -83,64 +36,5 @@ body, input[text], button {
   height: 64px;
 }
 
-@-webkit-keyframes swap {
-  from {
-    background-position-x: 0;
-  }
-  to {
-    background-position-x: -128px;
-  }
-}
 
-
-
-.player {
-  background-image: url('app/resources/player3.png');
-  width: 64px;
-  height: 64px;
-
-  -webkit-animation: swap .8s steps(2) infinite;
-}
-
-.SS {
-  background-image: url('app/resources/spider.png');
-  width: 64px;
-  height: 64px;
-
-  -webkit-animation: swap .6s steps(2) infinite;
-}
-
-.BB {
-  background-image: url('app/resources/bat.png');
-  width: 64px;
-  height: 64px;
-
-  -webkit-animation: swap .6s steps(2) infinite;
-}
-
-.Platino {
-  background-image: url('app/resources/platino.png');
-  width: 64px;
-  height: 64px;
-
-  -webkit-animation: swap .6s steps(2) infinite;
-}
-
-
-.b {
-  background-blend-mode: color-burn;
-  background-color: green;
-  background-image: url('app/resources/bat.jpg');
-  width: 64px;
-  height: 64px;
-}
-
-/* Objects */
-.coin {
-  background-blend-mode: color-burn;
-  background-color: goldenrod;
-  background-image: url('app/resources/coin.jpg');
-  width: 64px;
-  height: 64px;
-}
 

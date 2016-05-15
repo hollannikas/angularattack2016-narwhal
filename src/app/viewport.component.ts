@@ -21,6 +21,9 @@ export class ViewportComponent {
   @Input()
   map:DungeonMap;
 
+  @Input()
+  availableCoins:number;
+
   @Output()
   mapChanged:EventEmitter<any> = new EventEmitter();
 
@@ -207,13 +210,7 @@ export class ViewportComponent {
     });
 
     // Check if map objective has been reached
-    var coinsLeft = false;
-    this.map.objects.forEach((dungeonObject:DungeonObject) => {
-      if (dungeonObject.type == DungeonObjectType.COIN) {
-        coinsLeft = true;
-      }
-    });
-    this.objectiveReached = !coinsLeft;
+    this.objectiveReached = this.player.coins == this.availableCoins;
   }
 
   handleNPCsMove() {

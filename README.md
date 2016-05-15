@@ -1,5 +1,15 @@
 # This is the [AngularAttack](https://www.angularattack.com) 2016 Repo of team Sarvivalas
 
+### What is this?
+
+We wanted to make a rogue-like game (heavily inspired by Konami's Cave Noir from 1991,)
+and we also wanted to avoid using a canvas, so we could play more with angular2's features
+(as opposed to writing a typescript game loop that just paints on the canvas.)
+
+Enjoy!
+
+-- Team Sarvivalas --
+
 ### Credits
 
 

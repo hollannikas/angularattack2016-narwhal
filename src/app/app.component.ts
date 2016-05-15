@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {ViewportComponent} from "./viewport.component";
 import {DungeonMap, DungeonObjectType} from "./shared/map.model";
 import {Direction} from "./constants";
@@ -25,6 +25,9 @@ export class AppComponent {
   private victory:boolean = false;
 
   availableCoins:number = 0;
+
+  @ViewChild(ViewportComponent)
+  viewportComponent: ViewportComponent;
 
   constructor() {
     // TODO get map from file
@@ -130,6 +133,7 @@ export class AppComponent {
   toggleVictoryModal(modal:boolean) {
     console.log("victory!")
     this.victory = modal;
+    this.viewportComponent.initGame();
   }
 
 

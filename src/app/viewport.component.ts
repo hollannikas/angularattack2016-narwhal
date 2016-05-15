@@ -18,6 +18,7 @@ import {LogComponent} from "./log.component";
 })
 export class ViewportComponent {
 
+  
   @Input()
   map:DungeonMap;
 
@@ -76,9 +77,13 @@ export class ViewportComponent {
   }
 
   initGame() {
+    if(this.player) {
+      this.player.coins = 0;
+    }
     this.playerService.setStartLocation({x: 1, y: 1});
     // TODO add reset on service?
     this.resetNPCs();
+
 
   }
 
@@ -86,6 +91,7 @@ export class ViewportComponent {
     this.npcService.reset();
 
     this.map.npcs.forEach(x => {
+      console.log(x);
       this.npcService.addNpc(x);
     });
 

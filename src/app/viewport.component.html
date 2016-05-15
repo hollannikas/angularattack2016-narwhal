@@ -4,7 +4,7 @@
 <sv-status [player]="player"></sv-status>
 
 <div *ngFor="let npc of npcs">
-  {{npc.name}}: X:{{npc.location.x}},Y:{{npc.location.y}}
+  {{npc.name}} Live: {{npc.hp}}
 </div>
 
 <div *ngFor="let row of getMap()" style="display: flex; flex-direction: row">

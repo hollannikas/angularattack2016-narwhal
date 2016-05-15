@@ -22,6 +22,8 @@ export class AppComponent {
   selectedMap:number = 0;
   dungeonMaps:DungeonMap[] = [];
   private modal:boolean = false;
+  private victory:boolean = false;
+
   availableCoins:number = 0;
 
   constructor() {
@@ -123,6 +125,11 @@ export class AppComponent {
   toggleModal(modal:boolean) {
     console.log(modal);
     this.modal = modal;
+  }
+
+  toggleVictoryModal(modal:boolean) {
+    console.log("victory!")
+    this.victory = modal;
   }
 
 

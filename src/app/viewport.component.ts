@@ -27,6 +27,9 @@ export class ViewportComponent {
   @Output()
   mapChanged:EventEmitter<any> = new EventEmitter();
 
+  @Output()
+  objectiveReachedEvent:EventEmitter<any> = new EventEmitter();
+
   private messages:string[] = [];
 
   private player:Player;
@@ -218,6 +221,9 @@ export class ViewportComponent {
 
     // Check if map objective has been reached
     this.objectiveReached = this.player.coins == this.availableCoins;
+    if(this.objectiveReached) {
+      this.objectiveReachedEvent.emit(null);
+    }
   }
 
   handleNPCsMove() {

@@ -1,5 +1,5 @@
 <div style="margin-bottom: 20px">
-  <div (click)="toggleModal(true)">Readme!</div>
+  <div (click)="toggleModal(true, false)">Readme!</div>
   <div *ngIf="modal"
        class="modalWrapper"
        (click)="toggleModal(false)">
@@ -29,6 +29,27 @@
     </div>
 
   </div>
-  <sv-viewport [map]="dungeonMaps[selectedMap]" [availableCoins]="availableCoins" (mapChanged)="changeMap($event)"></sv-viewport>
+  <div *ngIf="victory"
+       class="modalWrapper"
+       (click)="toggleVictoryModal(false)">
+
+    <div class="scroll_upper_row">
+      <div class="scroll_cul"></div>
+      <div class="scroll_cur"></div>
+    </div>
+
+    <div class="scroll">
+      Victory!<br/><br/>
+
+
+    </div>
+
+    <div class="scroll_lower_row">
+      <div class="scroll_cdl"></div>
+      <div class="scroll_cdr"></div>
+    </div>
+
+  </div>
+  <sv-viewport (objectiveReachedEvent)="toggleVictoryModal(true)" [map]="dungeonMaps[selectedMap]" [availableCoins]="availableCoins" (mapChanged)="changeMap($event)"></sv-viewport>
 
 </div>

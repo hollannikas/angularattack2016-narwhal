@@ -1,5 +1,7 @@
-<!DOCTYPE html>
 <div>This is the log</div>
-<div *ngFor="let message of log">
-  <div>{{message}}</div>
-</div>
+
+<ul class="logbox">
+  <li *ngFor="let message of log" class="logmessage">
+    {{message}}
+  </li>
+</ul>

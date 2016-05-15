@@ -1,4 +1,4 @@
-import {Component, Input, HostListener, Output, EventEmitter} from "@angular/core";
+import {Component, Input, HostListener, Output, EventEmitter, SimpleChange} from "@angular/core";
 import {TileComponent} from "./tile.component";
 import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
@@ -138,7 +138,8 @@ export class ViewportComponent {
     const nextTile = this.map.floorLayer[location.y][location.x];
     if (nextTile.className.startsWith('w')) {
       this.log("You hit the wall!");
-    }    if (nextTile.className == 'a') {
+    }
+    if (nextTile.className == 'a') {
       this.log("When you look into an abyss, the abyss also looks into you.");
     }
 

@@ -88,6 +88,7 @@ export class ViewportComponent {
 
   restartGame() {
     this.restart = true;
+    this.player.hp = 3;
     this.initGame();
   }
 

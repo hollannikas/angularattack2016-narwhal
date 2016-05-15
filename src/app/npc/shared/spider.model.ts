@@ -50,11 +50,7 @@ export class Spider extends NPC {
   }
 
   checkCollision(nextTile:Tile):boolean {
-    let collision = nextTile.className.startsWith('w') ||
+    return nextTile.className.startsWith('w') ||
       nextTile.className == 'a';
-    if (collision) {
-      console.log("Uuuhh not that way");
-    }
-    return collision;
   }
 }

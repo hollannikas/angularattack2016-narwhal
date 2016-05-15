@@ -1,4 +1,4 @@
-import {Component, Input, HostListener} from "@angular/core";
+import {Component, Input,Output, HostListener, EventEmitter} from "@angular/core";
 import {TileComponent} from "./tile.component";
 import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
@@ -8,18 +8,20 @@ import {Player} from "./player/shared/player.model";
 import {DungeonMap, Tile} from "./shared/map.model";
 import {NPC} from "./npc/shared/npc.model";
 import {StatusComponent} from "./status.component";
+import {LogComponent} from "./log.component";
 
 @Component({
   selector: 'sv-viewport',
   templateUrl: 'app/viewport.component.html',
   styleUrls: ['app/viewport.component.css'],
-  directives: [TileComponent, StatusComponent]
+  directives: [TileComponent, StatusComponent, LogComponent]
 })
 export class ViewportComponent {
 
-  // TODO we start out with a single room map, should be multiple rooms
   @Input()
   map:DungeonMap;
+
+  private messages:string[] = [];
 
   private player:Player;
 
@@ -31,7 +33,7 @@ export class ViewportComponent {
   private showPlatino = false;
 
   constructor(private playerService:PlayerService, private npcService:NPCService) {
-
+    this.update = new EventEmitter();
   }
 
   ngOnInit() {
@@ -84,9 +86,8 @@ export class ViewportComponent {
 
     this.npcService.npc$.subscribe(l => {
       this.npcs = l;
-      console.log("UPDATE");
       if (this.checkPlayerNPCCollision()) {
-        console.log("Arrrrgh! I am DEAD.");
+        this.log("Arrrrgh! I am DEAD.");
 
         //this.restartGame();
       }
@@ -101,7 +102,6 @@ export class ViewportComponent {
   drawPlayer(viewport:Tile[][]) {
     viewport[this.player.location.y][this.player.location.x].hasPlayer = true;
     if(this.showPlatino) {
-      console.log("Showing platino");
       viewport[this.player.location.y-1][this.player.location.x].hasPlatino = true;
     }
   }
@@ -118,7 +118,7 @@ export class ViewportComponent {
     let collision = nextTile.className.startsWith('w')
       || nextTile.className == 'a';
     if (collision) {
-      console.log("Damn wall!")
+      this.log("Damn wall!")
     }
     return collision;
   }
@@ -162,7 +162,7 @@ export class ViewportComponent {
       if (dungeonObject.location.x == this.player.location.x && dungeonObject.location.y == this.player.location.y) {
         switch (dungeonObject.type) {
           case 0:
-            console.log("Found a coin!");
+            this.log("Found a coin!");
             this.player.coins++;
             this.map.removeObject(dungeonObject);
             // TODO play coin sound!
@@ -189,12 +189,17 @@ export class ViewportComponent {
         const nextTileLocation = this.npcService.nextLocation(npc.direction, npc);
         const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
         if (npc.checkCollision(nextTile)) {
+          this.log(npc.name + ": Uuuhh not that way");
           this.npcService.changeDirection(npc);
         }
         this.npcService.move(npc);
       });
 
     }
+  }
+
+  log(message:string) {
+    this.messages.push(message);
   }
 
   removeNPC(npc:NPC) {
@@ -205,7 +210,6 @@ export class ViewportComponent {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event:KeyboardEvent) {
     event.preventDefault();
-    this.player.jumping = false;
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
@@ -228,25 +232,25 @@ export class ViewportComponent {
         }
         break;
       case Key.SPACE:
-        console.log("I would jump if someone would have added the animation...");
+        this.log("I would jump if someone would have added the animation...");
         this.jumpCounter++;
         if(this.jumpCounter == 100) {
-          console.log("Ermagehrd! Platino!");
+          this.log("Ermagehrd! Platino!");
           this.showPlatino = !this.showPlatino;
           this.jumpCounter = 0;
         }
 
         let npc = this.getNPCCloseToPlayer();
         if (npc != null) {
-          console.log("Kill NPC!!!");
+          this.log("Kill NPC!!!");
           this.removeNPC(npc);
         } else {
-          console.log("No hit");
+          this.log("No hit");
         }
         break;
       // this.playerService.trigger();
       case Key.ENTER:
-        console.log("This probably does something");
+        this.log("Pusing enter probably does something");
         break;
       // this.playerService.??();
     }

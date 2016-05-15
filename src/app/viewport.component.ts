@@ -139,12 +139,12 @@ export class ViewportComponent {
     if (nextTile.className.startsWith('w')) {
       this.log("You hit the wall!");
     }
-    if (nextTile.className == 'a') {
+    if (nextTile.className == 'ar' || nextTile.className == 'al' || nextTile.className == 'a' ) {
       this.log("When you look into an abyss, the abyss also looks into you.");
     }
 
     let collision = nextTile.className.startsWith('w')
-      || nextTile.className == 'a';
+      || nextTile.className == 'al' ||  nextTile.className == 'ar' || nextTile.className == 'a';
     return collision;
   }
 

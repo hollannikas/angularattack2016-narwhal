@@ -123,13 +123,24 @@ body, input[text], button {
 
 
 
-.a {
-  background-blend-mode: color-burn;
-  background-color: black;
-  background-image: url('app/resources/floor_3.png');
+.al {
+  background-image: url('app/resources/floor_hole_left.png');
   width: 64px;
   height: 64px;
 }
+
+.a {
+  background-color: black;
+  width: 64px;
+  height: 64px;
+}
+
+.ar {
+  background-image: url('app/resources/floor_hole_right.png');
+  width: 64px;
+  height: 64px;
+}
+
 .modalWrapper {
   width: 90%;
   height: 50%;

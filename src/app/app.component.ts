@@ -19,7 +19,7 @@ export class AppComponent {
    *
    */
 
-  dungeonMap:DungeonMap = new DungeonMap();
+  dungeonMap:DungeonMap[] = new DungeonMap();
 
   constructor() {
     // TODO get map from file
@@ -49,7 +49,7 @@ export class AppComponent {
 
     this.dungeonMap.npcs.push(bat);
     this.dungeonMap.npcs.push(spider);
-    
+
   }
 
 }

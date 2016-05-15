@@ -50,10 +50,6 @@ export class Bat extends NPC {
   }
 
   checkCollision(nextTile:Tile):boolean {
-    let collision = nextTile.className.startsWith('w');
-    if (collision) {
-      console.log("Uuuhh not that way");
-    }
-    return collision;
+    return nextTile.className.startsWith('w');
   }
 }

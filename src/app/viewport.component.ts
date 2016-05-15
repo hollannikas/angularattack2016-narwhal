@@ -1,4 +1,4 @@
-import {Component, Input, HostListener} from "@angular/core";
+import {Component, Input, HostListener, EventEmitter} from "@angular/core";
 import {TileComponent} from "./tile.component";
 import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
@@ -7,18 +7,21 @@ import {NPCService} from "./npc/shared/npc.service";
 import {Player} from "./player/shared/player.model";
 import {DungeonMap, Tile} from "./shared/map.model";
 import {NPC} from "./npc/shared/npc.model";
+import {StatusComponent} from "./status.component";
+import {LogComponent} from "./log.component";
 
 @Component({
   selector: 'sv-viewport',
   templateUrl: 'app/viewport.component.html',
   styleUrls: ['app/viewport.component.css'],
-  directives: [TileComponent]
+  directives: [TileComponent, StatusComponent, LogComponent]
 })
 export class ViewportComponent {
 
-  // TODO we start out with a single room map, should be multiple rooms
   @Input()
   map:DungeonMap;
+
+  private messages:string[] = [];
 
   private player:Player;
 
@@ -26,8 +29,11 @@ export class ViewportComponent {
 
   private objectiveReached:boolean = false;
 
-  constructor(private playerService:PlayerService, private npcService:NPCService) {
+  private jumpCounter = 0;
+  private showPlatino = false;
 
+  constructor(private playerService:PlayerService, private npcService:NPCService) {
+    
   }
 
   ngOnInit() {
@@ -35,10 +41,10 @@ export class ViewportComponent {
 
     this.playerService.player$.subscribe(p => {
       this.player = p;
-      if (!this.isPlayerCloseToNPC()) {
-        // TODO maybe onlystop moveing selected NPC
-        this.moveNPCs();
-      }
+      //if (!this.isPlayerCloseToNPC()) {
+      // TODO maybe onlystop moveing selected NPC
+      this.moveNPCs();
+      //}
       this.handleObjectCollsions();
     });
 
@@ -80,9 +86,9 @@ export class ViewportComponent {
 
     this.npcService.npc$.subscribe(l => {
       this.npcs = l;
-      console.log("UPDATE");
+      //console.log("UPDATE");
       if (this.checkPlayerNPCCollision()) {
-        console.log("Arrrrgh! I am DEAD.");
+        this.log("Arrrrgh! I am DEAD.");
 
         //this.restartGame();
       }
@@ -96,6 +102,9 @@ export class ViewportComponent {
 
   drawPlayer(viewport:Tile[][]) {
     viewport[this.player.location.y][this.player.location.x].hasPlayer = true;
+    if (this.showPlatino) {
+      viewport[this.player.location.y - 1][this.player.location.x].hasPlatino = true;
+    }
   }
 
   drawNPCs(viewport:Tile[][], map:DungeonMap) {
@@ -110,25 +119,25 @@ export class ViewportComponent {
     let collision = nextTile.className.startsWith('w')
       || nextTile.className == 'a';
     if (collision) {
-      console.log("Damn wall!")
+      this.log("Damn wall!")
     }
     return collision;
   }
 
-
-  checkPlayerNPCCollision() {
+  checkPlayerNPCCollision(location:Location = this.player.location) {
     let collision:boolean = false;
     this.npcs.forEach((npc) => {
-      if (npc.location.x === this.player.location.x
-        && npc.location.y === this.player.location.y) {
+      if (npc.location.x === location.x
+        && npc.location.y === location.y) {
         collision = true;
+        this.log("Damn " + npc.name + "!")
         return;
       }
     });
     return collision;
   }
 
-  isPlayerCloseToNPC() {
+  isPlayerCloseToNPC(location:Location) {
     return this.getNPCCloseToPlayer() != null;
   }
 
@@ -154,7 +163,7 @@ export class ViewportComponent {
       if (dungeonObject.location.x == this.player.location.x && dungeonObject.location.y == this.player.location.y) {
         switch (dungeonObject.type) {
           case 0:
-            console.log("Found a coin!");
+            this.log("Found a coin!");
             this.player.coins++;
             this.map.removeObject(dungeonObject);
             // TODO play coin sound!
@@ -181,6 +190,7 @@ export class ViewportComponent {
         const nextTileLocation = this.npcService.nextLocation(npc.direction, npc);
         const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
         if (npc.checkCollision(nextTile)) {
+          this.log(npc.name + ": Uuuhh not that way");
           this.npcService.changeDirection(npc);
         }
         this.npcService.move(npc);
@@ -189,9 +199,32 @@ export class ViewportComponent {
     }
   }
 
+  log(message:string) {
+    this.messages.push(message);
+  }
+
   removeNPC(npc:NPC) {
     this.map.removeNPC(npc);
     this.npcService.removeNPC(npc);
+  }
+
+  handlePlayerMove(direction:Direction) {
+    if (!this.checkPlayerWallCollision(this.playerService.nextLocation(direction))) {
+      if (!this.checkPlayerNPCCollision(this.playerService.nextLocation(direction))) {
+        this.playerService.move(direction);
+      } else {
+        let npc:NPC = this.getNPCCloseToPlayer();
+        npc.hp--;
+        if (npc.isDead()) {
+          this.log("Killed " + npc.name + "!");
+          this.removeNPC(npc);
+          this.playerService.move(direction);
+        } else {
+          this.moveNPCs();
+        }
+      }
+    }
+
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -199,38 +232,37 @@ export class ViewportComponent {
     event.preventDefault();
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
-        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
-          this.playerService.move(Direction.DOWN);
-        }
+        this.handlePlayerMove(Direction.DOWN);
         break;
       case Key.ARROW_UP:
-        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.UP))) {
-          this.playerService.move(Direction.UP);
-        }
+        this.handlePlayerMove(Direction.UP);
         break;
       case Key.ARROW_LEFT:
-        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.LEFT))) {
-          this.playerService.move(Direction.LEFT);
-        }
+        this.handlePlayerMove(Direction.LEFT);
         break;
       case Key.ARROW_RIGHT:
-        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.RIGHT))) {
-          this.playerService.move(Direction.RIGHT);
-        }
+        this.handlePlayerMove(Direction.RIGHT);
         break;
       case Key.SPACE:
-        console.log("Fire!!!");
+        this.log("I would jump if someone would have added the animation...");
+        this.jumpCounter++;
+        if (this.jumpCounter == 100) {
+          this.log("Ermagehrd! Platino!");
+          this.showPlatino = !this.showPlatino;
+          this.jumpCounter = 0;
+        }
+
         let npc = this.getNPCCloseToPlayer();
         if (npc != null) {
-          console.log("Kill NPC!!!");
+          this.log("Kill NPC!!!");
           this.removeNPC(npc);
         } else {
-          console.log("No hit");
+          this.log("No hit");
         }
         break;
       // this.playerService.trigger();
       case Key.ENTER:
-        console.log("This probably does something");
+        this.log("Pusing enter probably does something");
         break;
       // this.playerService.??();
     }

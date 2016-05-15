@@ -8,4 +8,9 @@ export enum CharacterType {
 export abstract class Character {
   type:CharacterType;
   location:Location;
+  hp:number = 1;
+
+  isDead():boolean {
+    return this.hp < 1;
+  }
 }

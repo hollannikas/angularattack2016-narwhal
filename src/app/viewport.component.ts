@@ -4,11 +4,9 @@ import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
 import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
-import {Bat} from "./npc/shared/bat.model";
 import {Player} from "./player/shared/player.model";
 import {DungeonMap, Tile} from "./shared/map.model";
 import {NPC} from "./npc/shared/npc.model";
-import {Spider} from "./npc/shared/spider.model";
 import {StatusComponent} from "./status.component";
 
 @Component({
@@ -38,9 +36,11 @@ export class ViewportComponent {
 
     this.playerService.player$.subscribe(p => {
       this.player = p;
-      this.moveNPCs();
+      if (!this.isPlayerCloseToNPC()) {
+        // TODO maybe onlystop moveing selected NPC
+        this.moveNPCs();
+      }
       this.handleObjectCollsions();
-
     });
 
     this.restartGame();
@@ -60,7 +60,7 @@ export class ViewportComponent {
     });
 
     this.drawPlayer(viewport);
-    this.drawNPCs(viewport);
+    this.drawNPCs(viewport, this.map);
     this.drawObjects(viewport, this.map);
     return viewport;
   }
@@ -81,33 +81,29 @@ export class ViewportComponent {
 
     this.npcService.npc$.subscribe(l => {
       this.npcs = l;
+      console.log("UPDATE");
       if (this.checkPlayerNPCCollision()) {
         console.log("Arrrrgh! I am DEAD.");
+
         //this.restartGame();
       }
     });
 
-    const bat = new Bat();
-    bat.location = {x: 5, y: 4};
-    bat.direction = Direction.LEFT;
-    bat.name = "Bobby Bat";
-    this.npcService.addNpc(bat);
+    this.map.npcs.forEach(x => {
+      this.npcService.addNpc(x);
+    });
 
-    const spider = new Spider();
-    spider.location = {x: 4, y: 2};
-    spider.direction = Direction.UP;
-    spider.name = "Sammy Spider";
-    this.npcService.addNpc(spider);
   }
 
   drawPlayer(viewport:Tile[][]) {
     viewport[this.player.location.y][this.player.location.x].hasPlayer = true;
   }
 
-  drawNPCs(viewport:Tile[][]) {
-    this.npcs.forEach((npc) => {
-      viewport[npc.location.y][npc.location.x].npc = npc;
-    })
+  drawNPCs(viewport:Tile[][], map:DungeonMap) {
+    map.npcs.forEach((object) => {
+      // TODO map string from ObjectType enum
+      viewport[object.location.y][object.location.x].npc = object;
+    });
   }
 
   checkPlayerWallCollision(location:Location):boolean {
@@ -133,14 +129,25 @@ export class ViewportComponent {
     return collision;
   }
 
-  canPlayerSelectNPC() {
-    this.npcs.forEach((npc) => {
-      if (npc.location.y == this.player.location.y && npc.getDistanceX(this.player.location) == 1) {
-        console.log("I can select");
-      } else if (npc.location.x == this.player.location.x && npc.getDistanceY(this.player.location) == 1) {
-        console.log("I can also select");
-      }
-    });
+  isPlayerCloseToNPC() {
+    return this.getNPCCloseToPlayer() != null;
+  }
+
+  getNPCCloseToPlayer():NPC {
+    if (this.npcs) {
+      let selectedNPC:NPC = null;
+      this.npcs.forEach((npc) => {
+        if (npc.location.y == this.player.location.y && npc.getDistanceX(this.player.location) == 1) {
+          selectedNPC = npc;
+          return;
+        } else if (npc.location.x == this.player.location.x && npc.getDistanceY(this.player.location) == 1) {
+          selectedNPC = npc;
+          return;
+        }
+      });
+      return selectedNPC;
+    }
+    return null;
   }
 
   handleObjectCollsions() {
@@ -162,7 +169,7 @@ export class ViewportComponent {
     // Check if map objective has been reached
     var coinsLeft = false;
     this.map.objects.forEach((dungeonObject) => {
-      if(dungeonObject.type == 0) {
+      if (dungeonObject.type == 0) {
         coinsLeft = true;
       }
     });
@@ -179,7 +186,13 @@ export class ViewportComponent {
         }
         this.npcService.move(npc);
       });
+
     }
+  }
+
+  removeNPC(npc:NPC) {
+    this.map.removeNPC(npc);
+    this.npcService.removeNPC(npc);
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -208,6 +221,13 @@ export class ViewportComponent {
         break;
       case Key.SPACE:
         console.log("Fire!!!");
+        let npc = this.getNPCCloseToPlayer();
+        if (npc != null) {
+          console.log("Kill NPC!!!");
+          this.removeNPC(npc);
+        } else {
+          console.log("No hit");
+        }
         break;
       // this.playerService.trigger();
       case Key.ENTER:

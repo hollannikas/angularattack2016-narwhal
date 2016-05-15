@@ -1,4 +1,6 @@
 @import url('floor.css');
+@import url('wall.css');
+@import url('characters.css');
 
 /* Master Styles */
 h1 {
@@ -13,62 +15,27 @@ h2, h3 {
   font-weight: lighter;
 }
 
+@font-face {
+  font-family: '8-bit_small';
+  src: url('app/resources/SDS_6x6.ttf');
+}
+
+@font-face {
+  font-family: '8-bit';
+  src: url('app/resources/SDS_8x8.ttf');
+}
+
+
+
 body {
   margin: 2em;
+  font-family: '8-bit';
 }
+
 
 body, input[text], button {
-  color: #888;
-  font-family: Cambria, Georgia;
-}
-
-
-.w_cul {
-  background-image: url('app/resources/wall_corner_upper_left.png');
-  background-size:contain;
-  width: 64px;
-  height: 64px;
-}
-
-.w_cur {
-  background-image: url('app/resources/wall_corner_upper_right.png');
-  background-size:contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-.w_cdl {
-  background-image: url('app/resources/wall_corner_down_left.png');
-  background-size:contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-.w_cdr {
-  background-image: url('app/resources/wall_corner_down_right.png');
-  background-size:contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-
-.w_b {
-  background-image: url('app/resources/wall_b.png');
-  background-size:contain;
-
-  width: 64px;
-  height: 64px;
-}
-
-.w_a {
-  background-image: url('app/resources/wall_a.png');
-  background-size: contain;
-
-  width: 64px;
-  height: 64px;
+  color: #e4e4e4;
+  background-color: black;
 }
 
 
@@ -83,64 +50,60 @@ body, input[text], button {
   height: 64px;
 }
 
-@-webkit-keyframes swap {
-  from {
-    background-position-x: 0;
-  }
-  to {
-    background-position-x: -128px;
-  }
+.gui_label_frame_top {
+  font-size: 12px;
+  padding-top: 6px;
+  font-family: '8-bit_small';
+  text-align: center;
+  background-image: url('app/resources/gui_top.png');
+  background-repeat: no-repeat;
+  width: 196px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gui_label_frame_bottom {
+  margin-top: -12px;
+  font-size: 12px;
+  padding-top: 15px;
+  font-family: '8-bit_small';
+  text-align: center;
+  background-image: url('app/resources/gui_bottom.png');
+  background-repeat: no-repeat;
+  width: 196px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
 }
 
 
+.gui_indicator {
+  margin-left: 10px;
+  background-image: url('app/resources/gui1.png');
+  background-repeat: no-repeat;
 
-.player {
-  background-image: url('app/resources/player3.png');
   width: 64px;
   height: 64px;
-
-  -webkit-animation: swap .8s steps(2) infinite;
-}
-
-.SS {
-  background-image: url('app/resources/spider.png');
-  width: 64px;
-  height: 64px;
-
-  -webkit-animation: swap .6s steps(2) infinite;
-}
-
-.BB {
-  background-image: url('app/resources/bat.png');
-  width: 64px;
-  height: 64px;
-
-  -webkit-animation: swap .6s steps(2) infinite;
-}
-
-.Platino {
-  background-image: url('app/resources/platino.png');
-  width: 64px;
-  height: 64px;
-
-  -webkit-animation: swap .6s steps(2) infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
-.b {
-  background-blend-mode: color-burn;
-  background-color: green;
-  background-image: url('app/resources/bat.jpg');
-  width: 64px;
-  height: 64px;
+
+.player_hp[hp] {
+  background-image: url('app/resources/h.png');
+  width: 20px;
+  height: 20px;
+  background-size: cover;
 }
 
-/* Objects */
-.coin {
-  background-blend-mode: color-burn;
-  background-color: goldenrod;
-  background-image: url('app/resources/coin.jpg');
-  width: 64px;
-  height: 64px;
+.player_hp[hp=half] {
+  background-position-x: -32px;
 }
+
+
 

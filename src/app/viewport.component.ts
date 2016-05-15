@@ -135,16 +135,21 @@ export class ViewportComponent {
   }
 
   checkPlayerWallCollision(location:Location):boolean {
-    const nextTile = this.map.floorLayer[location.y][location.x];
-    if (nextTile.className.startsWith('w')) {
-      this.log("You hit the wall!");
-    }
-    if (nextTile.className == 'a') {
-      this.log("When you look into an abyss, the abyss also looks into you.");
-    }
+    let collision = false;
+    try {
+      const nextTile = this.map.floorLayer[location.y][location.x];
+      if (nextTile.className.startsWith('w')) {
+        this.log("You hit the wall!");
+      }
+      if (nextTile.className == 'a') {
+        this.log("When you look into an abyss, the abyss also looks into you.");
+      }
 
-    let collision = nextTile.className.startsWith('w')
-      || nextTile.className == 'a';
+      collision = nextTile.className.startsWith('w')
+        || nextTile.className == 'a';
+    } catch (e) {
+      collision = true;
+    }
     return collision;
   }
 

@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {ViewportComponent} from "./viewport.component";
-import {DungeonMap, DungeonObjectType, DungeonObject} from "./shared/map.model";
+import {DungeonMap, DungeonObjectType} from "./shared/map.model";
 import {Direction} from "./constants";
 import {Bat} from "./npc/shared/bat.model";
 import {Spider} from "./npc/shared/spider.model";
@@ -21,6 +21,7 @@ export class AppComponent {
 
   selectedMap:number = 0;
   dungeonMaps:DungeonMap[] = [];
+  private modal:boolean = false;
   availableCoins:number = 0;
 
   constructor() {
@@ -118,4 +119,11 @@ export class AppComponent {
       this.selectedMap = 0;
     }
   }
+  
+  toggleModal(modal:boolean) {
+    console.log(modal);
+    this.modal = modal;
+  }
+
+
 }

@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<div *ngIf="objectiveReached">You gathered all the coins! You should head for the exit if there would be one.</div>
+<div style="display: flex; flex-direction: column">
+  <div *ngIf="objectiveReached">You gathered all the coins! You should head for the exit if there would be one.</div>
 
-<sv-status [player]="player"></sv-status>
+  <sv-status [player]="player"></sv-status>
 
-<div *ngFor="let npc of npcs">
-  {{npc.name}}: X:{{npc.location.x}},Y:{{npc.location.y}}
-</div>
+  <!--<div *ngFor="let npc of npcs">-->
+    <!--{{npc.name}}: X:{{npc.location.x}},Y:{{npc.location.y}}-->
+  <!--</div>-->
 
-<div *ngFor="let row of getMap()" style="display: flex; flex-direction: row">
-  <div *ngFor="let tile of row; let i = index; let last = last;" style="display: flex; flex-direction: column">
-    <sv-tile [tile]="tile" [index]="i" [isLastOfRow]="last"></sv-tile>
+  <div style="display: flex;">
+    <div>
+      <div *ngFor="let row of getMap()" style="display: flex; flex-direction: row">
+        <div *ngFor="let tile of row; let i = index; let last = last;" style="display: flex; flex-direction: column">
+          <sv-tile [tile]="tile" [index]="i" [isLastOfRow]="last"></sv-tile>
+        </div>
+      </div>
+    </div>
+    <sv-log [log]="messages"></sv-log>
   </div>
 </div>
-
-<sv-log [log]="messages"></sv-log>

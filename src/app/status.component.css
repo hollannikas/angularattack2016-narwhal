@@ -1,9 +1,9 @@
-.gui_label_frame_top {
+.gui_label_frame {
   font-size: 12px;
   padding-top: 6px;
   font-family: '8-bit_small';
   text-align: center;
-  background-image: url('app/resources/gui_top.png');
+  background-image: url('../app/resources/gui-2.png');
   background-repeat: no-repeat;
   width: 196px;
   height: 48px;
@@ -12,20 +12,6 @@
   align-items: center;
 }
 
-.gui_label_frame_bottom {
-  margin-top: -12px;
-  font-size: 12px;
-  padding-top: 15px;
-  font-family: '8-bit_small';
-  text-align: center;
-  background-image: url('app/resources/gui_bottom.png');
-  background-repeat: no-repeat;
-  width: 196px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-}
 
 
 .gui_indicator {

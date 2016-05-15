@@ -25,14 +25,27 @@ h2, h3 {
   src: url('app/resources/SDS_8x8.ttf');
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
 
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
 html {
   height: 100%;
 }
 body {
-  margin: 2em;
+  margin: 0;
+  padding: 20px;
   font-family: '8-bit';
-  height: 100%;
+  height: 90%;
 }
 
 
@@ -79,6 +92,25 @@ body, input[text], button {
 
 .gamearea {
   align-self: center;
+  flex-grow: 1;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+
+}
+
+.logbox {
+  padding-left: 20px;
+  height: 400px;
+  width: 300px;
+  overflow-y:auto;
+  font-family: '8-bit_small';
+  list-style: none;
+}
+
+.logmessage {
+  font-size: 12px;
+  padding-top: 6px;
 }
 
 .angular {

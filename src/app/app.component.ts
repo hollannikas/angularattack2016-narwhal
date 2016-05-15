@@ -115,6 +115,8 @@ export class AppComponent {
     this.dungeonMaps.push(dungeonMap);
     this.dungeonMaps.push(dungeonMap2);
 
+    this.availableCoins = 0;
+
     this.dungeonMaps.forEach((map:DungeonMap) => {
       map.objects.forEach((dungeonObject:DungeonObject) => {
         if (dungeonObject.type == DungeonObjectType.COIN) {
@@ -122,7 +124,7 @@ export class AppComponent {
         }
       });
     });
-    
+
   }
 
   ngOnInit() {

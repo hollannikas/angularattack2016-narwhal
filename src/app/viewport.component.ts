@@ -106,7 +106,6 @@ export class ViewportComponent {
     this.npcService.reset();
 
     this.map.npcs.forEach(x => {
-      console.log(x);
       this.npcService.addNpc(x);
     });
 

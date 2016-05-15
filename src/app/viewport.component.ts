@@ -135,16 +135,21 @@ export class ViewportComponent {
   }
 
   checkPlayerWallCollision(location:Location):boolean {
-    const nextTile = this.map.floorLayer[location.y][location.x];
-    if (nextTile.className.startsWith('w')) {
-      this.log("You hit the wall!");
-    }
-    if (nextTile.className == 'ar' || nextTile.className == 'al' || nextTile.className == 'a' ) {
-      this.log("When you look into an abyss, the abyss also looks into you.");
-    }
+    let collision = false;
+    try {
+      const nextTile = this.map.floorLayer[location.y][location.x];
+      if (nextTile.className.startsWith('w')) {
+        this.log("You hit the wall!");
+      }
+      if (nextTile.className == 'a') {
+        this.log("When you look into an abyss, the abyss also looks into you.");
+      }
 
-    let collision = nextTile.className.startsWith('w')
-      || nextTile.className == 'al' ||  nextTile.className == 'ar' || nextTile.className == 'a';
+      collision = nextTile.className.startsWith('w')
+        || nextTile.className == 'a';
+    } catch (e) {
+      collision = true;
+    }
     return collision;
   }
 
@@ -154,7 +159,7 @@ export class ViewportComponent {
       if (npc.location.x === location.x
         && npc.location.y === location.y) {
         collision = true;
-        this.log(npc.name + " bit you!")
+        //this.log(npc.name + " bit you!");
         return;
       }
     });
@@ -232,6 +237,7 @@ export class ViewportComponent {
         }
         if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {
           this.player.hp--;
+          this.log(npc.name + " bit you!")
           this.log("Ouch");
         } else {
           this.npcService.move(npc);
@@ -255,13 +261,10 @@ export class ViewportComponent {
   }
 
   handlePlayerMove(direction:Direction) {
-    console.log("handle player move");
     if (!this.checkPlayerWallCollision(this.playerService.nextLocation(direction))) {
       if (!this.checkPlayerNPCCollision(this.playerService.nextLocation(direction))) {
-        console.log("player move");
         this.playerService.move(direction);
       } else {
-        console.log("NONO");
         let npc:NPC = this.getNPCCloseToPlayer();
         npc.hp--;
         if (npc.isDead()) {

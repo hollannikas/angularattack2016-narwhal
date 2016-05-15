@@ -72,7 +72,7 @@ export class AppComponent {
     dungeonMap2.objects.push({type: DungeonObjectType.COIN, location: {x: 8, y: 1}});
 
     dungeonMap2.objects.push({type: DungeonObjectType.CORRIDOR, location: {x: 4, y: 7}});
-    dungeonMap2.playerEntryLocation = {x: 4, y: 1};
+    dungeonMap2.playerEntryLocation = {x: 4, y: 6};
 
     const zoe = new Bat();
     zoe.location = {x: 5, y: 4};

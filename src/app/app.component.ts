@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {ViewportComponent} from "./viewport.component";
-import {DungeonMap, DungeonObject} from "./shared/map.model";
+import {DungeonMap, DungeonObject, DungeonObjectType} from "./shared/map.model";
 
 @Component({
   selector: 'sv-app',
@@ -32,6 +32,7 @@ export class AppComponent {
     ]);
 
     const coin = new DungeonObject();
+    coin.type = DungeonObjectType.COIN;
     coin.location = { x: 3, y: 3};
     this.dungeonMap.objects.push(coin);
   }

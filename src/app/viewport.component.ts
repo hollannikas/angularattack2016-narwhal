@@ -6,7 +6,7 @@ import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
 import {Bat} from "./npc/shared/bat.model";
 import {Player} from "./player/shared/player.model";
-import {DungeonMap, Tile} from "./shared/map.model";
+import {DungeonMap, Tile, DungeonObject} from "./shared/map.model";
 import {NPC} from "./npc/shared/npc.model";
 import {Spider} from "./npc/shared/spider.model";
 
@@ -128,7 +128,24 @@ export class ViewportComponent {
       //}
     //});
   }
-  
+
+  handleObjectCollsions() {
+    this.map.objects.forEach((dungeonObject) => {
+      if(dungeonObject.location.x == this.player.location.x && dungeonObject.location.y == this.player.location.y) {
+        switch(dungeonObject.type) {
+          case 0:
+            console.log("Found a coin!");
+            this.player.coins++;
+            this.map.removeObject(dungeonObject);
+            // TODO play coin sound!
+            break;
+          default:
+            console.log("Unhandled object " + dungeonObject.type);
+        }
+      }
+    });
+  }
+
   moveNPCs() {
     this.npcs.forEach((npc) => {
       const nextTileLocation = this.npcService.nextLocation(npc.direction, npc);
@@ -182,6 +199,7 @@ export class ViewportComponent {
 
     } else if (playerMoved) {
       this.moveNPCs();
+      this.handleObjectCollsions();
       if (this.checkPlayerNPCCollision()) {
         alert("Arrrrgh! I am DEAD.");
         this.restartGame();

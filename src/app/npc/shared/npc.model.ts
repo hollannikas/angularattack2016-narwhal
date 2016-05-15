@@ -8,7 +8,7 @@ export abstract class NPC extends Character {
   direction:Direction;
   abstract changeDirection();
   abstract nextLocation():Location;
-  checkCollision(nextTile:Tile):boolean;
+  abstract checkCollision(nextTile:Tile):boolean;
 
   public move() {
     let nextLocation = this.nextLocation();

@@ -1,5 +1,6 @@
 import {Location} from "./location.model";
 import {Bat} from "../npc/shared/bat.model";
+import {NPC} from "../npc/shared/npc.model";
 export enum DungeonObjectType {
   COIN
 }
@@ -12,8 +13,7 @@ export class DungeonObject {
 export class Tile {
   className:string;
   hasPlayer:boolean;
-  // TODO should be NPC interface
-  npc:Bat;
+  npc:NPC;
   object:DungeonObject;
 }
 
@@ -31,5 +31,12 @@ export class DungeonMap {
       });
       this.floorLayer.push(tileRow);
     });
+  }
+
+  removeObject(dungeonObject:DungeonObject) {
+    var index = this.objects.indexOf(dungeonObject, 0);
+    if (index > -1) {
+      this.objects.splice(index, 1);
+    }
   }
 }

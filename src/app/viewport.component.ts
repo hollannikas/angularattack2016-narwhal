@@ -45,7 +45,7 @@ export class ViewportComponent {
       this.handleObjectCollsions();
     });
 
-    this.restartGame();
+    this.initGame();
   }
 
   getMap():Tile[][] {
@@ -69,14 +69,13 @@ export class ViewportComponent {
 
 
   drawObjects(viewport:Tile[][], map:DungeonMap) {
-//    console.log("Map " + map);
     map.objects.forEach((object) => {
       // TODO map string from ObjectType enum
       viewport[object.location.y][object.location.x].object = object;
     });
   }
 
-  restartGame() {
+  initGame() {
     this.playerService.setStartLocation({x: 1, y: 1});
     // TODO add reset on service?
     this.npcService.reset();
@@ -84,10 +83,9 @@ export class ViewportComponent {
     this.npcService.npc$.subscribe(l => {
       this.npcs = l;
       if (this.checkPlayerNPCCollision()) {
-
         this.log("Arrrrgh! I am DEAD.");
-
-        //this.restartGame();
+        // TODO show game over
+        //this.initGame();
       }
     });
 
@@ -261,18 +259,10 @@ export class ViewportComponent {
           this.showPlatino = !this.showPlatino;
           this.jumpCounter = 0;
         }
-
-        let npc = this.getNPCCloseToPlayer();
-        if (npc != null) {
-          this.log("Kill NPC!!!");
-          this.removeNPC(npc);
-        } else {
-          this.log("No hit");
-        }
         break;
       // this.playerService.trigger();
       case Key.ENTER:
-        this.log("Pusing enter probably does something");
+        this.log("Pushing enter probably does something");
         break;
       // this.playerService.??();
     }

@@ -37,11 +37,9 @@ export class ViewportComponent {
       this.player = p;
       if (!this.isPlayerCloseToNPC()) {
         // TODO maybe onlystop moveing selected NPC
-        console.log("UPDATE Player");
         this.moveNPCs();
-        this.handleObjectCollsions();
       }
-
+      this.handleObjectCollsions();
     });
 
     this.restartGame();
@@ -85,6 +83,7 @@ export class ViewportComponent {
       console.log("UPDATE");
       if (this.checkPlayerNPCCollision()) {
         console.log("Arrrrgh! I am DEAD.");
+
         //this.restartGame();
       }
     });
@@ -92,7 +91,7 @@ export class ViewportComponent {
     this.map.npcs.forEach(x => {
       this.npcService.addNpc(x);
     });
-    
+
   }
 
   drawPlayer(viewport:Tile[][]) {
@@ -185,7 +184,6 @@ export class ViewportComponent {
           this.npcService.changeDirection(npc);
         }
         this.npcService.move(npc);
-        console.log("MOVED " + npc.name);
       });
 
     }

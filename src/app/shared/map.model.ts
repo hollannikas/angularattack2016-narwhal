@@ -1,5 +1,4 @@
 import {Location} from "./location.model";
-import {Bat} from "../npc/shared/bat.model";
 import {NPC} from "../npc/shared/npc.model";
 export enum DungeonObjectType {
   COIN
@@ -20,7 +19,8 @@ export class Tile {
 export class DungeonMap {
   floorLayer:Tile[][] = [];
   objects:DungeonObject[] = [];
-  
+  npcs:NPC[] = [];
+
   setFloorMap(baseTiles:string[][]) {
     baseTiles.forEach((row) => {
       let tileRow = [];
@@ -34,9 +34,17 @@ export class DungeonMap {
   }
 
   removeObject(dungeonObject:DungeonObject) {
-    var index = this.objects.indexOf(dungeonObject, 0);
+    let index = this.objects.indexOf(dungeonObject, 0);
     if (index > -1) {
       this.objects.splice(index, 1);
     }
   }
+
+  removeNPC(npc:NPC) {
+    let index = this.npcs.indexOf(npc, 0);
+    if (index > -1) {
+      this.npcs.splice(index, 1);
+    }
+  }
+  
 }

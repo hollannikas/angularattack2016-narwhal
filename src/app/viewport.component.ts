@@ -1,4 +1,4 @@
-import {Component, Input,Output, HostListener, EventEmitter} from "@angular/core";
+import {Component, Input, HostListener, EventEmitter} from "@angular/core";
 import {TileComponent} from "./tile.component";
 import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
@@ -33,7 +33,7 @@ export class ViewportComponent {
   private showPlatino = false;
 
   constructor(private playerService:PlayerService, private npcService:NPCService) {
-    this.update = new EventEmitter();
+    
   }
 
   ngOnInit() {
@@ -41,10 +41,10 @@ export class ViewportComponent {
 
     this.playerService.player$.subscribe(p => {
       this.player = p;
-      if (!this.isPlayerCloseToNPC()) {
-        // TODO maybe onlystop moveing selected NPC
-        this.moveNPCs();
-      }
+      //if (!this.isPlayerCloseToNPC()) {
+      // TODO maybe onlystop moveing selected NPC
+      this.moveNPCs();
+      //}
       this.handleObjectCollsions();
     });
 
@@ -86,6 +86,7 @@ export class ViewportComponent {
 
     this.npcService.npc$.subscribe(l => {
       this.npcs = l;
+      //console.log("UPDATE");
       if (this.checkPlayerNPCCollision()) {
         this.log("Arrrrgh! I am DEAD.");
 
@@ -101,8 +102,8 @@ export class ViewportComponent {
 
   drawPlayer(viewport:Tile[][]) {
     viewport[this.player.location.y][this.player.location.x].hasPlayer = true;
-    if(this.showPlatino) {
-      viewport[this.player.location.y-1][this.player.location.x].hasPlatino = true;
+    if (this.showPlatino) {
+      viewport[this.player.location.y - 1][this.player.location.x].hasPlatino = true;
     }
   }
 
@@ -123,20 +124,20 @@ export class ViewportComponent {
     return collision;
   }
 
-
-  checkPlayerNPCCollision() {
+  checkPlayerNPCCollision(location:Location = this.player.location) {
     let collision:boolean = false;
     this.npcs.forEach((npc) => {
-      if (npc.location.x === this.player.location.x
-        && npc.location.y === this.player.location.y) {
+      if (npc.location.x === location.x
+        && npc.location.y === location.y) {
         collision = true;
+        this.log("Damn " + npc.name + "!")
         return;
       }
     });
     return collision;
   }
 
-  isPlayerCloseToNPC() {
+  isPlayerCloseToNPC(location:Location) {
     return this.getNPCCloseToPlayer() != null;
   }
 
@@ -207,34 +208,45 @@ export class ViewportComponent {
     this.npcService.removeNPC(npc);
   }
 
+  handlePlayerMove(direction:Direction) {
+    if (!this.checkPlayerWallCollision(this.playerService.nextLocation(direction))) {
+      if (!this.checkPlayerNPCCollision(this.playerService.nextLocation(direction))) {
+        this.playerService.move(direction);
+      } else {
+        let npc:NPC = this.getNPCCloseToPlayer();
+        npc.hp--;
+        if (npc.isDead()) {
+          this.log("Killed " + npc.name + "!");
+          this.removeNPC(npc);
+          this.playerService.move(direction);
+        } else {
+          this.moveNPCs();
+        }
+      }
+    }
+
+  }
+
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event:KeyboardEvent) {
     event.preventDefault();
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
-        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
-          this.playerService.move(Direction.DOWN);
-        }
+        this.handlePlayerMove(Direction.DOWN);
         break;
       case Key.ARROW_UP:
-        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.UP))) {
-          this.playerService.move(Direction.UP);
-        }
+        this.handlePlayerMove(Direction.UP);
         break;
       case Key.ARROW_LEFT:
-        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.LEFT))) {
-          this.playerService.move(Direction.LEFT);
-        }
+        this.handlePlayerMove(Direction.LEFT);
         break;
       case Key.ARROW_RIGHT:
-        if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.RIGHT))) {
-          this.playerService.move(Direction.RIGHT);
-        }
+        this.handlePlayerMove(Direction.RIGHT);
         break;
       case Key.SPACE:
         this.log("I would jump if someone would have added the animation...");
         this.jumpCounter++;
-        if(this.jumpCounter == 100) {
+        if (this.jumpCounter == 100) {
           this.log("Ermagehrd! Platino!");
           this.showPlatino = !this.showPlatino;
           this.jumpCounter = 0;

@@ -92,6 +92,7 @@ body, input[text], button {
 
 .gamearea {
   align-self: center;
+  align-items: center;
   flex-grow: 1;
   display: flex;
   width: 100%;

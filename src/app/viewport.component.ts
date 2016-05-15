@@ -121,7 +121,12 @@ export class ViewportComponent {
   drawPlayer(viewport:Tile[][]) {
     viewport[this.player.location.y][this.player.location.x].hasPlayer = true;
     if (this.showPlatino) {
-      viewport[this.player.location.y - 1][this.player.location.x].hasPlatino = true;
+      try {
+        viewport[this.player.location.y - 1][this.player.location.x].hasPlatino = true;
+      } catch (e) {
+        // Nothing
+      }
+
     }
   }
 
@@ -144,7 +149,7 @@ export class ViewportComponent {
       }
 
       collision = nextTile.className.startsWith('w')
-        || nextTile.className == 'a' || nextTile.className == 'ar' || nextTile.className == 'al' ;
+        || nextTile.className == 'a' || nextTile.className == 'ar' || nextTile.className == 'al';
     } catch (e) {
       collision = true;
     }
@@ -216,7 +221,7 @@ export class ViewportComponent {
 
     // Check if map objective has been reached
     this.objectiveReached = this.player.coins == this.availableCoins;
-    if(this.objectiveReached) {
+    if (this.objectiveReached) {
       this.objectiveReachedEvent.emit(null);
     }
   }
@@ -237,12 +242,12 @@ export class ViewportComponent {
           this.npcService.changeDirection(npc);
         }
         if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {
-          if(this.player.hp != 0) {
+          if (this.player.hp != 0) {
             this.player.hp--;
           }
           this.log(npc.name + " bit you!")
           this.log("Ouch");
-          if(this.player.hp == 0) {
+          if (this.player.hp == 0) {
             // TODO death dialog here
             this.log("Ermagherd I r ded. Wai I still walking?");
           }

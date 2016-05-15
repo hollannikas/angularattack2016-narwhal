@@ -6,7 +6,7 @@ import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
 import {Bat} from "./npc/shared/bat.model";
 import {Player} from "./player/shared/player.model";
-import {DungeonMap, Tile, DungeonObject} from "./shared/map.model";
+import {DungeonMap, Tile} from "./shared/map.model";
 import {NPC} from "./npc/shared/npc.model";
 import {Spider} from "./npc/shared/spider.model";
 
@@ -35,6 +35,9 @@ export class ViewportComponent {
 
     this.playerService.player$.subscribe(p => {
       this.player = p;
+      this.moveNPCs();
+
+
     });
 
     this.restartGame();
@@ -75,6 +78,10 @@ export class ViewportComponent {
 
     this.npcService.npc$.subscribe(l => {
       this.npcs = l;
+      if (this.checkPlayerNPCCollision()) {
+        console.log("Arrrrgh! I am DEAD.");
+        //this.restartGame();
+      }
     });
 
     const bat = new Bat();
@@ -112,27 +119,31 @@ export class ViewportComponent {
 
 
   checkPlayerNPCCollision() {
+    let collision:boolean = false;
     this.npcs.forEach((npc) => {
-      if (npc.location.x == this.player.location.x
-        && npc.location.y == this.player.location.y) {
-        return true;
+      if (npc.location.x === this.player.location.x
+        && npc.location.y === this.player.location.y) {
+        collision = true;
+        return;
       }
-    })
-    return false;
+    });
+    return collision;
   }
 
   canPlayerSelectNPC() {
-    //this.npcs.forEach((npc) => {
-      //if(npc.location.x == this.player.location.x && npc.location){
-
-      //}
-    //});
+    this.npcs.forEach((npc) => {
+      if (npc.location.y == this.player.location.y && npc.getDistanceX(this.player.location) == 1) {
+        console.log("I can select");
+      } else if (npc.location.x == this.player.location.x && npc.getDistanceY(this.player.location) == 1) {
+        console.log("I can also select");
+      }
+    });
   }
 
   handleObjectCollsions() {
     this.map.objects.forEach((dungeonObject) => {
-      if(dungeonObject.location.x == this.player.location.x && dungeonObject.location.y == this.player.location.y) {
-        switch(dungeonObject.type) {
+      if (dungeonObject.location.x == this.player.location.x && dungeonObject.location.y == this.player.location.y) {
+        switch (dungeonObject.type) {
           case 0:
             console.log("Found a coin!");
             this.player.coins++;
@@ -147,14 +158,16 @@ export class ViewportComponent {
   }
 
   moveNPCs() {
-    this.npcs.forEach((npc) => {
-      const nextTileLocation = this.npcService.nextLocation(npc.direction, npc);
-      const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
-      if (npc.checkCollision(nextTile)) {
-        this.npcService.changeDirection(npc);
-      }
-      this.npcService.move(npc);
-    });
+    if (this.npcs) {
+      this.npcs.forEach((npc) => {
+        const nextTileLocation = this.npcService.nextLocation(npc.direction, npc);
+        const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
+        if (npc.checkCollision(nextTile)) {
+          this.npcService.changeDirection(npc);
+        }
+        this.npcService.move(npc);
+      });
+    }
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -195,16 +208,7 @@ export class ViewportComponent {
         break;
       // this.playerService.??();
     }
-    if (this.canPlayerSelectNPC()) {
 
-    } else if (playerMoved) {
-      this.moveNPCs();
-      this.handleObjectCollsions();
-      if (this.checkPlayerNPCCollision()) {
-        alert("Arrrrgh! I am DEAD.");
-        this.restartGame();
-      }
-    }
 
   }
 }

@@ -54,24 +54,11 @@ export class NPCService {
   }
 
   private getDistanceX(location:Location, npc:NPC):number {
-    
-    let distanceX:number;
-    if (npc.location.x > location.x) {
-      distanceX = npc.location.x - location.x;
-    } else {
-      distanceX = location.x - npc.location.x;
-    }
-    return distanceX;
+    return npc.getDistanceX(location);
   }
 
   private getDistanceY(location:Location, npc:NPC):number {
-    let distanceY:number;
-    if (npc.location.y > location.y) {
-      distanceY = npc.location.y - location.y;
-    } else {
-      distanceY = location.y - npc.location.y;
-    }
-    return distanceY;
+    return npc.getDistanceX(location);
   }
 
   public nextLocation(direction:Direction, npc:NPC) {

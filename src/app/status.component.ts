@@ -9,4 +9,8 @@ import {Player} from "./player/shared/player.model";
 export class StatusComponent {
   @Input()
   player:Player;
+  
+  getPlayerHP() {
+    return ""+this.player.hp +"/"+ this.player.max_hp;
+  }
 }

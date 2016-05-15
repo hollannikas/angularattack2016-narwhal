@@ -15,7 +15,9 @@
 
 
 .gui_indicator {
+
   margin-left: 10px;
+  font-size: 12px;
   background-image: url('app/resources/gui1.png');
   background-repeat: no-repeat;
   font-family: '8-bit_small';

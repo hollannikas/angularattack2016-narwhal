@@ -117,7 +117,7 @@ export class ViewportComponent {
     let collision = nextTile.className.startsWith('w')
       || nextTile.className == 'a';
     if (collision) {
-      this.log("Damn wall!")
+      this.log("You hit the wall!")
     }
     return collision;
   }
@@ -128,7 +128,7 @@ export class ViewportComponent {
       if (npc.location.x === location.x
         && npc.location.y === location.y) {
         collision = true;
-        this.log("Damn " + npc.name + "!")
+        this.log(npc.name + " bit you!")
         return;
       }
     });
@@ -202,11 +202,12 @@ export class ViewportComponent {
         if (!this.checkOutsideOfMap(nextTileLocation)) {
           const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
           if (!nextTile || npc.checkCollision(nextTile)) {
-            this.log(npc.name + ": Uuuhh not that way");
+            //this.log(npc.name + ": Uuuhh not that way");
             this.npcService.changeDirection(npc);
           }
         } else {
-          this.log(npc.name + ": It's the end of the world, as we know it (And I feel fine)");
+
+         // this.log(npc.name + ": It's the end of the world, as we know it (And I feel fine)");
           this.npcService.changeDirection(npc);
         }
         if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {
@@ -241,7 +242,7 @@ export class ViewportComponent {
         let npc:NPC = this.getNPCCloseToPlayer();
         npc.hp--;
         if (npc.isDead()) {
-          this.log("Killed " + npc.name + "!");
+          this.log("you killed " + npc.name + "!");
           this.removeNPC(npc);
           this.playerService.move(direction);
         } else {

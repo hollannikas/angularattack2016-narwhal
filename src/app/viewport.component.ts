@@ -159,7 +159,7 @@ export class ViewportComponent {
       if (npc.location.x === location.x
         && npc.location.y === location.y) {
         collision = true;
-        this.log(npc.name + " bit you!")
+        //this.log(npc.name + " bit you!");
         return;
       }
     });
@@ -237,6 +237,7 @@ export class ViewportComponent {
         }
         if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {
           this.player.hp--;
+          this.log(npc.name + " bit you!")
           this.log("Ouch");
         } else {
           this.npcService.move(npc);
@@ -260,13 +261,10 @@ export class ViewportComponent {
   }
 
   handlePlayerMove(direction:Direction) {
-    console.log("handle player move");
     if (!this.checkPlayerWallCollision(this.playerService.nextLocation(direction))) {
       if (!this.checkPlayerNPCCollision(this.playerService.nextLocation(direction))) {
-        console.log("player move");
         this.playerService.move(direction);
       } else {
-        console.log("NONO");
         let npc:NPC = this.getNPCCloseToPlayer();
         npc.hp--;
         if (npc.isDead()) {

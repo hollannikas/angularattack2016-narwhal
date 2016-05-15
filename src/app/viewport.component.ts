@@ -68,11 +68,6 @@ export class ViewportComponent {
 
     this.npcService.npc$.subscribe(l => {
       this.npcs = l;
-      if (this.checkPlayerNPCCollision()) {
-        this.log("Arrrrgh! I am DEAD.");
-        // TODO show game over
-        //this.initGame();
-      }
     });
 
     this.initGame();
@@ -242,9 +237,15 @@ export class ViewportComponent {
           this.npcService.changeDirection(npc);
         }
         if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {
-          this.player.hp--;
+          if(this.player.hp != 0) {
+            this.player.hp--;
+          }
           this.log(npc.name + " bit you!")
           this.log("Ouch");
+          if(this.player.hp == 0) {
+            // TODO death dialog here
+            this.log("Ermagherd I r ded. Wai I still walking?");
+          }
         } else {
           this.npcService.move(npc);
         }

@@ -28,10 +28,16 @@ export class AppComponent {
   availableCoins:number = 0;
 
   @ViewChild(ViewportComponent)
-  viewportComponent: ViewportComponent;
+  viewportComponent:ViewportComponent;
 
   constructor() {
     // TODO get map from file
+    this.initDungeon();
+  }
+
+  initDungeon() {
+    this.dungeonMaps = [];
+
     const dungeonMap:DungeonMap = new DungeonMap();
     dungeonMap.setFloorMap([
       ['w_cul', 'w_b', 'w_b', 'w_b', 'f', 'w_b', 'w_b', 'w_b', 'w_b', 'w_cur'],
@@ -116,6 +122,7 @@ export class AppComponent {
         }
       });
     });
+    
   }
 
   ngOnInit() {
@@ -133,7 +140,7 @@ export class AppComponent {
       this.selectedMap = 0;
     }
   }
-  
+
   toggleModal(modal:boolean) {
     console.log(modal);
     this.modal = modal;
@@ -142,13 +149,17 @@ export class AppComponent {
   toggleVictoryModal(modal:boolean) {
     console.log("victory!")
     this.victory = modal;
-    this.viewportComponent.initGame();
+    this.viewportComponent.restartGame();
+    this.initDungeon();
+    this.selectedMap = 0;
   }
 
   toggleDefeatModal(modal:boolean) {
     console.log("defeat!")
     this.defeat = modal;
-    this.viewportComponent.initGame();
+    this.viewportComponent.restartGame();
+    this.initDungeon();
+    this.selectedMap = 0;
   }
 
 

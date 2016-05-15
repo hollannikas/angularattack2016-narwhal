@@ -18,7 +18,7 @@ import {LogComponent} from "./log.component";
 })
 export class ViewportComponent {
 
-  
+
   @Input()
   map:DungeonMap;
 
@@ -48,6 +48,8 @@ export class ViewportComponent {
 
   private initialised:boolean = false;
 
+  private restart:boolean = false;
+
   constructor(private playerService:PlayerService, private npcService:NPCService) {
 
   }
@@ -57,8 +59,12 @@ export class ViewportComponent {
       this.resetNPCs();
       console.log("Relocating");
       // TODO relocate player
-      this.playerService.setLocation(this.map.playerEntryLocation);
-      this.player.location = this.map.playerEntryLocation;
+      if (!this.restart) {
+        this.playerService.setLocation(this.map.playerEntryLocation);
+        this.player.location = this.map.playerEntryLocation;
+      } else {
+        this.restart = false;
+      }
     }
   }
 
@@ -80,8 +86,13 @@ export class ViewportComponent {
     this.initialised = true;
   }
 
+  restartGame() {
+    this.restart = true;
+    this.initGame();
+  }
+
   initGame() {
-    if(this.player) {
+    if (this.player) {
       this.player.coins = 0;
     }
     this.playerService.setStartLocation({x: 1, y: 1});

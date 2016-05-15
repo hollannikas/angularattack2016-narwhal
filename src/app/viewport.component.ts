@@ -9,12 +9,13 @@ import {Player} from "./player/shared/player.model";
 import {DungeonMap, Tile} from "./shared/map.model";
 import {NPC} from "./npc/shared/npc.model";
 import {Spider} from "./npc/shared/spider.model";
+import {StatusComponent} from "./status.component";
 
 @Component({
   selector: 'sv-viewport',
   templateUrl: 'app/viewport.component.html',
   styleUrls: ['app/viewport.component.css'],
-  directives: [TileComponent]
+  directives: [TileComponent, StatusComponent]
 })
 export class ViewportComponent {
 

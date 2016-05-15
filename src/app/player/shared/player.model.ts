@@ -3,6 +3,7 @@ import {Character, CharacterType} from "../../shared/character.model";
 export class Player extends Character {
 
   coins:number = 0;
+  hp:number = 10;
 
   constructor() {
     super();

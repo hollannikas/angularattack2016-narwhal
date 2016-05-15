@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<div>Player: X:{{player.location.x}},Y:{{player.location.y}} Coins: {{player.coins}}</div>
+<div *ngIf="objectiveReached">You gathered all the coins! You should head for the exit if there would be one.</div>
 
+
+<div>Player: X:{{player.location.x}},Y:{{player.location.y}} Coins: {{player.coins}}</div>
 <div *ngFor="let npc of npcs">
   {{npc.name}}: X:{{npc.location.x}},Y:{{npc.location.y}}
 </div>

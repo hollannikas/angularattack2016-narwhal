@@ -31,10 +31,8 @@ export class AppComponent {
       ['w_cdl', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_b', 'w_cdr']
     ]);
 
-    const coin = new DungeonObject();
-    coin.type = DungeonObjectType.COIN;
-    coin.location = { x: 3, y: 3};
-    this.dungeonMap.objects.push(coin);
+    this.dungeonMap.objects.push({ type: DungeonObjectType.COIN, location: { x: 3, y: 3} });
+    this.dungeonMap.objects.push({ type: DungeonObjectType.COIN, location: { x: 4, y: 1} });
   }
 
 }

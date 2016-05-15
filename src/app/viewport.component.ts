@@ -26,6 +26,8 @@ export class ViewportComponent {
 
   private npcs:NPC[];
 
+  private objectiveReached:boolean = false;
+
   constructor(private playerService:PlayerService, private npcService:NPCService) {
 
   }
@@ -36,7 +38,7 @@ export class ViewportComponent {
     this.playerService.player$.subscribe(p => {
       this.player = p;
       this.moveNPCs();
-
+      this.handleObjectCollsions();
 
     });
 
@@ -67,7 +69,7 @@ export class ViewportComponent {
 //    console.log("Map " + map);
     map.objects.forEach((object) => {
       // TODO map string from ObjectType enum
-      viewport[object.location.x][object.location.y].object = object;
+      viewport[object.location.y][object.location.x].object = object;
     });
   }
 
@@ -155,6 +157,15 @@ export class ViewportComponent {
         }
       }
     });
+
+    // Check if map objective has been reached
+    var coinsLeft = false;
+    this.map.objects.forEach((dungeonObject) => {
+      if(dungeonObject.type == 0) {
+        coinsLeft = true;
+      }
+    });
+    this.objectiveReached = !coinsLeft;
   }
 
   moveNPCs() {
@@ -173,30 +184,25 @@ export class ViewportComponent {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event:KeyboardEvent) {
     event.preventDefault();
-    var playerMoved = false;
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
           this.playerService.move(Direction.DOWN);
-          playerMoved = true;
         }
         break;
       case Key.ARROW_UP:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.UP))) {
           this.playerService.move(Direction.UP);
-          playerMoved = true;
         }
         break;
       case Key.ARROW_LEFT:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.LEFT))) {
           this.playerService.move(Direction.LEFT);
-          playerMoved = true;
         }
         break;
       case Key.ARROW_RIGHT:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.RIGHT))) {
           this.playerService.move(Direction.RIGHT);
-          playerMoved = true;
         }
         break;
       case Key.SPACE:

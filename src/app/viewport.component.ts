@@ -44,6 +44,11 @@ export class ViewportComponent {
   ngOnChanges(changes:{[propName:string]:SimpleChange}) {
     if (changes['map'] && changes['map'].currentValue && this.initialised) {
       this.resetNPCs();
+      // TODO relocate player
+      let corridorLocation = this.map.getCorridor();
+      console.log(corridorLocation);
+      this.playerService.setLocation(corridorLocation);
+      this.player.location = corridorLocation;
     }
   }
 
@@ -250,10 +255,13 @@ export class ViewportComponent {
   }
 
   handlePlayerMove(direction:Direction) {
+    console.log("handle player move");
     if (!this.checkPlayerWallCollision(this.playerService.nextLocation(direction))) {
       if (!this.checkPlayerNPCCollision(this.playerService.nextLocation(direction))) {
+        console.log("player move");
         this.playerService.move(direction);
       } else {
+        console.log("NONO");
         let npc:NPC = this.getNPCCloseToPlayer();
         npc.hp--;
         if (npc.isDead()) {

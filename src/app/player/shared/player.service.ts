@@ -41,6 +41,13 @@ export class PlayerService {
     this.playerObserver.next(this.player);
   }
 
+  public setLocation(location:Location) {
+    if (this.player == null) {
+      this.player = new Player();
+    }
+    this.player.location = location;
+  }
+
   public nextLocation(direction:Direction) {
     let location:Location = new Location();
     location.x = this.player.location.x;

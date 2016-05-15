@@ -48,5 +48,13 @@ export class DungeonMap {
       this.npcs.splice(index, 1);
     }
   }
-  
+
+  getCorridor():Location {
+    let corridor:DungeonObject = this.objects.find(x => x.type == DungeonObjectType.CORRIDOR);
+    if (corridor) {
+      return corridor.location;
+    }
+    return null;
+  }
+
 }

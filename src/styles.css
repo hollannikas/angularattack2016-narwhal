@@ -50,60 +50,7 @@ body, input[text], button {
   height: 64px;
 }
 
-.gui_label_frame_top {
-  font-size: 12px;
-  padding-top: 6px;
-  font-family: '8-bit_small';
-  text-align: center;
-  background-image: url('app/resources/gui_top.png');
-  background-repeat: no-repeat;
-  width: 196px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.gui_label_frame_bottom {
-  margin-top: -12px;
-  font-size: 12px;
-  padding-top: 15px;
-  font-family: '8-bit_small';
-  text-align: center;
-  background-image: url('app/resources/gui_bottom.png');
-  background-repeat: no-repeat;
-  width: 196px;
-  height: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-}
-
-
-.gui_indicator {
-  margin-left: 10px;
-  background-image: url('app/resources/gui1.png');
-  background-repeat: no-repeat;
-
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-
-.player_hp[hp] {
-  background-image: url('app/resources/h.png');
-  width: 20px;
-  height: 20px;
-  background-size: cover;
-}
-
-.player_hp[hp=half] {
-  background-position-x: -32px;
-}
 
 
 

@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<table>
-  <tr>
-    <td>Hero</td>
-    <td>Location {{player.location.x}},{{player.location.y}}</td>
-  </tr>
-  <tr>
-    <td>HP: {{player.hp}}</td>
-    <td>Coins: {{player.coins}}</td>
-  </tr>
-</table>
+<div style="display: flex; flex-direction: column">
+  <div style="display: flex;">
+    <div class="gui_label_frame_top">
+      Player health
+    </div>
+    <div class="gui_indicator">
+      <div class="player_hp" hp="full"></div>
+    </div>
+  </div>
+  <div style="display: flex">
+    <div class="gui_label_frame_bottom">
+      Coins collected
+    </div>
+    <div class="gui_indicator">
+      {{player.coins}}
+    </div>
+  </div>
+</div>
+
 

@@ -1,6 +1,6 @@
 import {Component, ViewChild} from "@angular/core";
 import {ViewportComponent} from "./viewport.component";
-import {DungeonMap, DungeonObjectType} from "./shared/map.model";
+import {DungeonMap, DungeonObjectType, DungeonObject} from "./shared/map.model";
 import {Direction} from "./constants";
 import {Bat} from "./npc/shared/bat.model";
 import {Spider} from "./npc/shared/spider.model";
@@ -116,6 +116,14 @@ export class AppComponent {
         }
       });
     });
+  }
+
+  ngOnInit() {
+    var audio = new Audio();
+    audio.src = "app/resources/mainLoop.mp3";
+    audio.loop = true;
+    audio.load();
+    audio.play();
   }
 
   changeMap($event) {

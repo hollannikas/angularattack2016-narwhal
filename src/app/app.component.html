@@ -1,3 +1,3 @@
 <div style="margin-bottom: 20px">
-<sv-viewport [map]="dungeonMap"></sv-viewport>
+  <sv-viewport [map]="dungeonMaps[selectedMap]" (mapChanged)="changeMap($event)"></sv-viewport>
 </div>

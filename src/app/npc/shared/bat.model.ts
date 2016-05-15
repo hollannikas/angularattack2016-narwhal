@@ -2,7 +2,7 @@ import {CharacterType} from "../../shared/character.model";
 import {NPC} from "./npc.model";
 import {Direction} from "../../constants";
 import {Location} from "../../shared/location.model";
-import {Tile} from "../../shared/map.model";
+import {Tile, DungeonObjectType} from "../../shared/map.model";
 
 export class Bat extends NPC {
 

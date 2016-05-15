@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {Tile} from "./shared/map.model";
+import {Tile, DungeonObjectType} from "./shared/map.model";
 import {CharacterType} from "./shared/character.model";
 
 @Component({
@@ -15,7 +15,16 @@ export class TileComponent {
 
   @Input()
   isLastOfRow:boolean;
-  
+
+  getObjectStyleClass():string {
+    switch(this.tile.object.type) {
+      case DungeonObjectType.COIN:
+        return "coins";
+      case DungeonObjectType.CORRIDOR:
+        return "f";
+    }
+  }
+
   getNpcStyleClass():string {
     switch(this.tile.npc.type) {
       case CharacterType.BAT:

@@ -1,11 +1,11 @@
-import {Component, Input, HostListener} from "@angular/core";
+import {Component, Input, HostListener, Output, EventEmitter} from "@angular/core";
 import {TileComponent} from "./tile.component";
 import {Key, Direction} from "./constants";
 import {PlayerService} from "./player/shared/player.service";
 import {Location} from "./shared/location.model";
 import {NPCService} from "./npc/shared/npc.service";
 import {Player} from "./player/shared/player.model";
-import {DungeonMap, Tile} from "./shared/map.model";
+import {DungeonMap, Tile, DungeonObjectType, DungeonObject} from "./shared/map.model";
 import {NPC} from "./npc/shared/npc.model";
 import {StatusComponent} from "./status.component";
 import {LogComponent} from "./log.component";
@@ -20,6 +20,9 @@ export class ViewportComponent {
 
   @Input()
   map:DungeonMap;
+
+  @Output()
+  mapChanged:EventEmitter<any> = new EventEmitter();
 
   private messages:string[] = [];
 
@@ -162,15 +165,20 @@ export class ViewportComponent {
   }
 
   handleObjectCollsions() {
-    this.map.objects.forEach((dungeonObject) => {
+    this.map.objects.forEach((dungeonObject:DungeonObject) => {
       if (dungeonObject.location.x == this.player.location.x && dungeonObject.location.y == this.player.location.y) {
         switch (dungeonObject.type) {
-          case 0:
-            this.log("Found a coin!");
+          case DungeonObjectType.COIN:
+            this.log("Ca-ching!");
             this.player.coins++;
             this.map.removeObject(dungeonObject);
             // TODO play coin sound!
             break;
+          case DungeonObjectType.CORRIDOR:
+            this.log("To infinity, and beyond!");
+            this.mapChanged.emit(null);
+            break;
+
           default:
             console.log("Unhandled object " + dungeonObject.type);
         }
@@ -179,8 +187,8 @@ export class ViewportComponent {
 
     // Check if map objective has been reached
     var coinsLeft = false;
-    this.map.objects.forEach((dungeonObject) => {
-      if (dungeonObject.type == 0) {
+    this.map.objects.forEach((dungeonObject:DungeonObject) => {
+      if (dungeonObject.type == DungeonObjectType.COIN) {
         coinsLeft = true;
       }
     });
@@ -191,9 +199,14 @@ export class ViewportComponent {
     if (this.npcs) {
       this.npcs.forEach((npc) => {
         const nextTileLocation = this.npcService.nextLocation(npc);
-        const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
-        if (npc.checkCollision(nextTile)) {
-          this.log(npc.name + ": Uuuhh not that way");
+        if (!this.checkOutsideOfMap(nextTileLocation)) {
+          const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
+          if (!nextTile || npc.checkCollision(nextTile)) {
+            this.log(npc.name + ": Uuuhh not that way");
+            this.npcService.changeDirection(npc);
+          }
+        } else {
+          this.log(npc.name + ": It's the end of the world, as we know it (And I feel fine)");
           this.npcService.changeDirection(npc);
         }
         if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {
@@ -205,6 +218,10 @@ export class ViewportComponent {
       });
 
     }
+  }
+
+  checkOutsideOfMap(location:Location):boolean {
+    return location.x == 0 || location.x == 10 || location.y == 0 || location.y == 8;
   }
 
   log(message:string) {

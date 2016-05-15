@@ -3,5 +3,5 @@
   <div *ngIf="tile.hasPlayer" class="player"></div>
   <div *ngIf="tile.npc" class="{{getNpcStyleClass()}}"></div>
   <div *ngIf="tile.hasPlatino" class="Platino"></div>
-  <div *ngIf="tile.object" class="coins"></div>
+  <div *ngIf="tile.object" class="{{getObjectStyleClass()}}"></div>
 </div>

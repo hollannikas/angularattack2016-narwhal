@@ -1,7 +1,8 @@
 import {Location} from "./location.model";
 import {NPC} from "../npc/shared/npc.model";
 export enum DungeonObjectType {
-  COIN
+  COIN,
+  CORRIDOR
 }
 
 export class DungeonObject {

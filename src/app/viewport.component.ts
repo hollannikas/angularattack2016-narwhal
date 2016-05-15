@@ -27,6 +27,9 @@ export class ViewportComponent {
 
   private objectiveReached:boolean = false;
 
+  private jumpCounter = 0;
+  private showPlatino = false;
+
   constructor(private playerService:PlayerService, private npcService:NPCService) {
 
   }
@@ -97,6 +100,10 @@ export class ViewportComponent {
 
   drawPlayer(viewport:Tile[][]) {
     viewport[this.player.location.y][this.player.location.x].hasPlayer = true;
+    if(this.showPlatino) {
+      console.log("Showing platino");
+      viewport[this.player.location.y-1][this.player.location.x].hasPlatino = true;
+    }
   }
 
   drawNPCs(viewport:Tile[][], map:DungeonMap) {
@@ -198,6 +205,7 @@ export class ViewportComponent {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event:KeyboardEvent) {
     event.preventDefault();
+    this.player.jumping = false;
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
@@ -220,7 +228,14 @@ export class ViewportComponent {
         }
         break;
       case Key.SPACE:
-        console.log("Fire!!!");
+        console.log("I would jump if someone would have added the animation...");
+        this.jumpCounter++;
+        if(this.jumpCounter == 100) {
+          console.log("Ermagehrd! Platino!");
+          this.showPlatino = !this.showPlatino;
+          this.jumpCounter = 0;
+        }
+
         let npc = this.getNPCCloseToPlayer();
         if (npc != null) {
           console.log("Kill NPC!!!");

@@ -14,6 +14,7 @@ export class Tile {
   hasPlayer:boolean;
   npc:NPC;
   object:DungeonObject;
+  hasPlatino:boolean;
 }
 
 export class DungeonMap {

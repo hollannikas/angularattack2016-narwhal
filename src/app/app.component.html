@@ -1,5 +1,4 @@
 <div style="margin-bottom: 20px">
-  <sv-viewport [map]="dungeonMaps[selectedMap]" [availableCoins]="availableCoins" (mapChanged)="changeMap($event)"></sv-viewport>
   <div (click)="toggleModal(true)">Readme!</div>
   <div *ngIf="modal"
        class="modalWrapper"
@@ -20,5 +19,6 @@
     </div>
 
   </div>
+  <sv-viewport [map]="dungeonMaps[selectedMap]" [availableCoins]="availableCoins" (mapChanged)="changeMap($event)"></sv-viewport>
 
 </div>

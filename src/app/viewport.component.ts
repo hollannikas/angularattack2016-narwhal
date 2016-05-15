@@ -78,15 +78,15 @@ export class ViewportComponent {
     });
 
     const bat = new Bat();
-    bat.location = {x: 5, y: 5};
-    bat.direction = Direction.DOWN;
-    bat.name = "BB";
+    bat.location = {x: 5, y: 4};
+    bat.direction = Direction.LEFT;
+    bat.name = "Bobby Bat";
     this.npcService.addNpc(bat);
 
     const spider = new Spider();
-    spider.location = {x: 7, y: 6};
-    spider.direction = Direction.RIGHT;
-    spider.name = "SS";
+    spider.location = {x: 4, y: 2};
+    spider.direction = Direction.UP;
+    spider.name = "Sammy Spider";
     this.npcService.addNpc(spider);
   }
 
@@ -109,14 +109,6 @@ export class ViewportComponent {
     return collision;
   }
 
-  checkNPCWallCollision(location:Location):boolean {
-    const nextTile = this.map.floorLayer[location.y][location.x];
-    let collision = nextTile.className.startsWith('w');
-    if (collision) {
-      console.log("Uuuhh not that way");
-    }
-    return collision;
-  }
 
   checkPlayerNPCCollision() {
     this.npcs.forEach((npc) => {
@@ -146,10 +138,12 @@ export class ViewportComponent {
       //}
     //});
   }
-
+  
   moveNPCs() {
     this.npcs.forEach((npc) => {
-      if (this.checkNPCWallCollision(this.npcService.nextLocation(npc.direction, npc))) {
+      const nextTileLocation = this.npcService.nextLocation(npc.direction, npc);
+      const nextTile = this.map.floorLayer[nextTileLocation.y][nextTileLocation.x];
+      if (npc.checkCollision(nextTile)) {
         this.npcService.changeDirection(npc);
       }
       this.npcService.move(npc);

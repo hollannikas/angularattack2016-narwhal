@@ -1,6 +1,8 @@
 import {CharacterType} from "../../shared/character.model";
 import {NPC} from "./npc.model";
 import {Direction} from "../../constants";
+import {Location} from "../../shared/location.model";
+import {Tile} from "../../shared/map.model";
 
 export class Spider extends NPC {
 
@@ -24,5 +26,35 @@ export class Spider extends NPC {
         this.direction = Direction.LEFT;
         break;
     }
+  }
+
+  public nextLocation():Location {
+    let location:Location = new Location();
+    location.x = this.location.x;
+    location.y = this.location.y;
+    switch (this.direction) {
+      case Direction.DOWN:
+        location.y++;
+        break;
+      case Direction.LEFT:
+        location.x--;
+        break;
+      case Direction.RIGHT:
+        location.x++;
+        break;
+      case Direction.UP:
+        location.y--;
+        break;
+    }
+    return location;
+  }
+
+  checkCollision(nextTile:Tile):boolean {
+    let collision = nextTile.className.startsWith('w') ||
+      nextTile.className == 'a';
+    if (collision) {
+      console.log("Uuuhh not that way");
+    }
+    return collision;
   }
 }

@@ -33,8 +33,8 @@ export class NPCService {
   }
 
   public nextFollowLocation(location:Location, npc:NPC):Location {
-    let distanceX = this.getDistanceX(location);
-    let distanceY = this.getDistanceY(location);
+    let distanceX = this.getDistanceX(location, npc);
+    let distanceY = this.getDistanceY(location, npc);
     if (distanceX < distanceY) {
       // move Y
       if (npc.location.y > location.y) {
@@ -75,24 +75,7 @@ export class NPCService {
   }
 
   public nextLocation(direction:Direction, npc:NPC) {
-    let location:Location = new Location();
-    location.x = npc.location.x;
-    location.y = npc.location.y;
-    switch (direction) {
-      case Direction.DOWN:
-        location.y++;
-        break;
-      case Direction.LEFT:
-        location.x--;
-        break;
-      case Direction.RIGHT:
-        location.x++;
-        break;
-      case Direction.UP:
-        location.y--;
-        break;
-    }
-    return location;
+    return npc.nextLocation();
   }
 
   public changeDirection(npc:NPC) {
@@ -100,10 +83,7 @@ export class NPCService {
   }
 
   public move(npc:NPC) {
-    let location:Location = this.nextLocation(npc.direction, npc);
-    npc.location.x = location.x;
-    npc.location.y = location.y;
+    npc.move();
     this.npcObserver.next(this.npcs);
   }
-
 }

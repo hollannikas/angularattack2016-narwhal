@@ -40,6 +40,8 @@ export class AppComponent {
     dungeonMap.objects.push({type: DungeonObjectType.COIN, location: {x: 4, y: 1}});
 
     dungeonMap.objects.push({type: DungeonObjectType.CORRIDOR, location: {x: 4, y: 0}});
+    dungeonMap.playerEntryLocation =  {x: 4, y: 0};
+
     const bat = new Bat();
     bat.location = {x: 5, y: 4};
     bat.direction = Direction.LEFT;
@@ -69,18 +71,20 @@ export class AppComponent {
     dungeonMap2.objects.push({type: DungeonObjectType.COIN, location: {x: 4, y: 1}});
 
     dungeonMap2.objects.push({type: DungeonObjectType.CORRIDOR, location: {x: 4, y: 7}});
+    dungeonMap2.playerEntryLocation = {x: 4, y: 7};
+
+    const zoe = new Bat();
+    zoe.location = {x: 5, y: 4};
+    zoe.direction = Direction.LEFT;
+    zoe.name = "Zoe the Bat";
+
     const bertrand = new Bat();
-    bertrand.location = {x: 5, y: 4};
-    bertrand.direction = Direction.LEFT;
+    bertrand.location = {x: 4, y: 2};
+    bertrand.direction = Direction.UP;
     bertrand.name = "Bertrand Bat";
 
-    const sophia = new Bat();
-    sophia.location = {x: 4, y: 2};
-    sophia.direction = Direction.UP;
-    sophia.name = "Sophia Spider";
-
     dungeonMap2.npcs.push(bertrand);
-    dungeonMap2.npcs.push(sophia);
+    dungeonMap2.npcs.push(zoe);
 
     this.dungeonMaps.push(dungeonMap);
     this.dungeonMaps.push(dungeonMap2);
@@ -92,6 +96,5 @@ export class AppComponent {
     } else if (this.selectedMap == 1) {
       this.selectedMap = 0;
     }
-    console.log("Map changed");
   }
 }

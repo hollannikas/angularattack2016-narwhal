@@ -44,11 +44,12 @@ export class ViewportComponent {
   ngOnChanges(changes:{[propName:string]:SimpleChange}) {
     if (changes['map'] && changes['map'].currentValue && this.initialised) {
       this.resetNPCs();
+      console.log("Relocating");
       // TODO relocate player
-      let corridorLocation = this.map.getCorridor();
-      console.log(corridorLocation);
-      this.playerService.setLocation(corridorLocation);
-      this.player.location = corridorLocation;
+     // let corridorLocation = this.map.getCorridor();
+      //console.log(corridorLocation);
+      this.playerService.setLocation(this.map.playerEntryLocation);
+      this.player.location = this.map.playerEntryLocation;
     }
   }
 

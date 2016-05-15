@@ -22,6 +22,7 @@ export class DungeonMap {
   floorLayer:Tile[][] = [];
   objects:DungeonObject[] = [];
   npcs:NPC[] = [];
+  playerEntryLocation:Location;
 
   setFloorMap(baseTiles:string[][]) {
     baseTiles.forEach((row) => {

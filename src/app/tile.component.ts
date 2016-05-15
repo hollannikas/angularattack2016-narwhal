@@ -17,7 +17,7 @@ export class TileComponent {
   isLastOfRow:boolean;
 
   getObjectStyleClass():string {
-    switch(this.tile.object.type) {
+    switch (this.tile.object.type) {
       case DungeonObjectType.COIN:
         return "coins";
       case DungeonObjectType.CORRIDOR:
@@ -26,7 +26,7 @@ export class TileComponent {
   }
 
   getNpcStyleClass():string {
-    switch(this.tile.npc.type) {
+    switch (this.tile.npc.type) {
       case CharacterType.BAT:
         return 'BB';
       case CharacterType.SPIDER:
@@ -34,6 +34,7 @@ export class TileComponent {
     }
     return '';
   }
+  
 
 }
 

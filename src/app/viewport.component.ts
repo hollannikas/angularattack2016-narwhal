@@ -49,8 +49,6 @@ export class ViewportComponent {
       this.resetNPCs();
       console.log("Relocating");
       // TODO relocate player
-     // let corridorLocation = this.map.getCorridor();
-      //console.log(corridorLocation);
       this.playerService.setLocation(this.map.playerEntryLocation);
       this.player.location = this.map.playerEntryLocation;
     }
@@ -225,7 +223,7 @@ export class ViewportComponent {
           }
         } else {
 
-         // this.log(npc.name + ": It's the end of the world, as we know it (And I feel fine)");
+          // this.log(npc.name + ": It's the end of the world, as we know it (And I feel fine)");
           this.npcService.changeDirection(npc);
         }
         if (this.checkNPCPlayerCollision(this.npcService.nextLocation(npc))) {

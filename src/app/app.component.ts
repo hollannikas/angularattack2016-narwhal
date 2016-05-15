@@ -68,7 +68,7 @@ export class AppComponent {
     dungeonMap2.objects.push({type: DungeonObjectType.COIN, location: {x: 3, y: 3}});
     dungeonMap2.objects.push({type: DungeonObjectType.COIN, location: {x: 4, y: 1}});
 
-    dungeonMap2.objects.push({type: DungeonObjectType.CORRIDOR, location: {x: 4, y: 9}});
+    dungeonMap2.objects.push({type: DungeonObjectType.CORRIDOR, location: {x: 4, y: 7}});
     const bertrand = new Bat();
     bertrand.location = {x: 5, y: 4};
     bertrand.direction = Direction.LEFT;
@@ -87,12 +87,11 @@ export class AppComponent {
   }
 
   changeMap($event) {
-    if(this.selectedMap = 0) {
+    if (this.selectedMap == 0) {
       this.selectedMap = 1;
-    }
-    if(this.selectedMap = 1) {
+    } else if (this.selectedMap == 1) {
       this.selectedMap = 0;
     }
-    console.log("Change the maps! " + $event);
+    console.log("Map changed");
   }
 }

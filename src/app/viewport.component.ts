@@ -35,8 +35,16 @@ export class ViewportComponent {
   private jumpCounter = 0;
   private showPlatino = false;
 
+  private initialised:boolean = false;
+
   constructor(private playerService:PlayerService, private npcService:NPCService) {
 
+  }
+
+  ngOnChanges(changes:{[propName:string]:SimpleChange}) {
+    if (changes['map'] && changes['map'].currentValue && this.initialised) {
+      this.resetNPCs();
+    }
   }
 
   ngOnInit() {
@@ -48,7 +56,34 @@ export class ViewportComponent {
       this.handleObjectCollsions();
     });
 
+    this.npcService.npc$.subscribe(l => {
+      this.npcs = l;
+      if (this.checkPlayerNPCCollision()) {
+        this.log("Arrrrgh! I am DEAD.");
+        // TODO show game over
+        //this.initGame();
+      }
+    });
+
     this.initGame();
+
+    this.initialised = true;
+  }
+
+  initGame() {
+    this.playerService.setStartLocation({x: 1, y: 1});
+    // TODO add reset on service?
+    this.resetNPCs();
+
+  }
+
+  resetNPCs() {
+    this.npcService.reset();
+
+    this.map.npcs.forEach(x => {
+      this.npcService.addNpc(x);
+    });
+
   }
 
   getMap():Tile[][] {
@@ -76,26 +111,6 @@ export class ViewportComponent {
       // TODO map string from ObjectType enum
       viewport[object.location.y][object.location.x].object = object;
     });
-  }
-
-  initGame() {
-    this.playerService.setStartLocation({x: 1, y: 1});
-    // TODO add reset on service?
-    this.npcService.reset();
-
-    this.npcService.npc$.subscribe(l => {
-      this.npcs = l;
-      if (this.checkPlayerNPCCollision()) {
-        this.log("Arrrrgh! I am DEAD.");
-        // TODO show game over
-        //this.initGame();
-      }
-    });
-
-    this.map.npcs.forEach(x => {
-      this.npcService.addNpc(x);
-    });
-
   }
 
   drawPlayer(viewport:Tile[][]) {

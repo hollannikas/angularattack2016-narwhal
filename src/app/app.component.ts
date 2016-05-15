@@ -23,6 +23,7 @@ export class AppComponent {
   dungeonMaps:DungeonMap[] = [];
   private modal:boolean = false;
   private victory:boolean = false;
+  private defeat:boolean = false;
 
   availableCoins:number = 0;
 
@@ -133,6 +134,12 @@ export class AppComponent {
   toggleVictoryModal(modal:boolean) {
     console.log("victory!")
     this.victory = modal;
+    this.viewportComponent.initGame();
+  }
+
+  toggleDefeatModal(modal:boolean) {
+    console.log("defeat!")
+    this.defeat = modal;
     this.viewportComponent.initGame();
   }
 

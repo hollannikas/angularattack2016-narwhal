@@ -31,6 +31,10 @@ export class ViewportComponent {
   @Output()
   objectiveReachedEvent:EventEmitter<any> = new EventEmitter();
 
+  @Output()
+  gameOverEvent:EventEmitter<any> = new EventEmitter();
+
+
   private messages:string[] = [];
 
   private player:Player;
@@ -255,6 +259,7 @@ export class ViewportComponent {
           this.log("Ouch");
           if (this.player.hp == 0) {
             // TODO death dialog here
+            this.gameOverEvent.emit(null);
             this.log("Ermagherd I r ded. Wai I still walking?");
           }
         } else {

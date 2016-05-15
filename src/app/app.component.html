@@ -54,6 +54,29 @@
     </div>
 
   </div>
-  <sv-viewport  (objectiveReachedEvent)="toggleVictoryModal(true)" [map]="dungeonMaps[selectedMap]" [availableCoins]="availableCoins" (mapChanged)="changeMap($event)"></sv-viewport>
+  <div *ngIf="defeat"
+       class="modalWrapper"
+       (click)="toggleDefeatModal(false)">
+
+    <div class="scroll_upper_row">
+      <div class="scroll_cul"></div>
+      <div class="scroll_cur"></div>
+    </div>
+
+    <div class="scroll">
+      Defeat!<br/><br/>
+
+      <br/><br/>
+
+    </div>
+
+    <div class="scroll_lower_row">
+      <div class="scroll_cdl"></div>
+      <div class="scroll_cdr"></div>
+    </div>
+
+  </div>
+
+  <sv-viewport  (objectiveReachedEvent)="toggleVictoryModal(true)" (gameOverEvent)="toggleDefeatModal(true)" [map]="dungeonMaps[selectedMap]" [availableCoins]="availableCoins" (mapChanged)="changeMap($event)"></sv-viewport>
 
 </div>

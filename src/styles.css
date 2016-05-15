@@ -55,7 +55,7 @@ body, input[text], button {
 }
 
 .splashWrapper {
-  height: 90%;
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -64,7 +64,7 @@ body, input[text], button {
 
 .splashRow {
   display: flex;
-  padding-bottom: 100px;
+  flex-shrink: 0;
 }
 
 .splashBanner {
@@ -96,6 +96,7 @@ body, input[text], button {
   display: flex;
   width: 100%;
   justify-content: center;
+  flex-shrink: 0;
 
 }
 

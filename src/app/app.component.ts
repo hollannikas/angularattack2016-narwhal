@@ -21,6 +21,7 @@ export class AppComponent {
 
   selectedMap:number = 0;
   dungeonMaps:DungeonMap[] = [];
+  private modal:boolean = false;
 
   constructor() {
     // TODO get map from file
@@ -94,4 +95,11 @@ export class AppComponent {
     }
     console.log("Map changed");
   }
+  
+  toggleModal(modal:boolean) {
+    console.log(modal);
+    this.modal = modal;
+  }
+
+
 }

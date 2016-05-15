@@ -1,3 +1,23 @@
 <div style="margin-bottom: 20px">
+  <div (click)="toggleModal(true)">Readme!</div>
+  <div *ngIf="modal"
+       class="modalWrapper"
+       (click)="toggleModal(false)">
+
+    <div class="scroll_upper_row">
+      <div class="scroll_cul"></div>
+      <div class="scroll_cur"></div>
+    </div>
+
+    <div class="scroll">
+      Credits roll here
+    </div>
+
+    <div class="scroll_lower_row">
+      <div class="scroll_cdl"></div>
+      <div class="scroll_cdr"></div>
+    </div>
+
+  </div>
   <sv-viewport [map]="dungeonMaps[selectedMap]" (mapChanged)="changeMap($event)"></sv-viewport>
 </div>

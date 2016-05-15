@@ -37,8 +37,11 @@ export class ViewportComponent {
 
     this.playerService.player$.subscribe(p => {
       this.player = p;
-      this.moveNPCs();
-      this.handleObjectCollsions();
+      if (!this.isPlayerCloseToNPC()) {
+        // TODO maybe onlystop moveing selected NPC
+        this.moveNPCs();
+        this.handleObjectCollsions();
+      }
 
     });
 
@@ -132,14 +135,25 @@ export class ViewportComponent {
     return collision;
   }
 
-  canPlayerSelectNPC() {
-    this.npcs.forEach((npc) => {
-      if (npc.location.y == this.player.location.y && npc.getDistanceX(this.player.location) == 1) {
-        console.log("I can select");
-      } else if (npc.location.x == this.player.location.x && npc.getDistanceY(this.player.location) == 1) {
-        console.log("I can also select");
-      }
-    });
+  isPlayerCloseToNPC() {
+    return this.getNPCCloseToPlayer() != null;
+  }
+
+  getNPCCloseToPlayer():NPC {
+    if (this.npcs) {
+      let selectedNPC:NPC = null;
+      this.npcs.forEach((npc) => {
+        if (npc.location.y == this.player.location.y && npc.getDistanceX(this.player.location) == 1) {
+          selectedNPC = npc;
+          return;
+        } else if (npc.location.x == this.player.location.x && npc.getDistanceY(this.player.location) == 1) {
+          selectedNPC = npc;
+          return;
+        }
+      });
+      return selectedNPC;
+    }
+    return null;
   }
 
   handleObjectCollsions() {
@@ -161,7 +175,7 @@ export class ViewportComponent {
     // Check if map objective has been reached
     var coinsLeft = false;
     this.map.objects.forEach((dungeonObject) => {
-      if(dungeonObject.type == 0) {
+      if (dungeonObject.type == 0) {
         coinsLeft = true;
       }
     });
@@ -207,6 +221,13 @@ export class ViewportComponent {
         break;
       case Key.SPACE:
         console.log("Fire!!!");
+        let npc = this.getNPCCloseToPlayer();
+        if (npc != null) {
+          console.log("Kill NPC!!!");
+          this.npcService.removeNPC(npc);
+        } else {
+          console.log("No hit");
+        }
         break;
       // this.playerService.trigger();
       case Key.ENTER:

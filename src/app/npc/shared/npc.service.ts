@@ -32,6 +32,11 @@ export class NPCService {
     this.npcObserver.next(this.npcs);
   }
 
+  public removeNPC(npc:NPC) {
+    this.npcs = this.npcs.filter(x => x.name != npc.name);
+    this.npcObserver.next(this.npcs);
+  }
+
   public nextFollowLocation(location:Location, npc:NPC):Location {
     let distanceX = this.getDistanceX(location, npc);
     let distanceY = this.getDistanceY(location, npc);

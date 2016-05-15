@@ -102,7 +102,8 @@ export class ViewportComponent {
 
   checkPlayerWallCollision(location:Location):boolean {
     const nextTile = this.map.floorLayer[location.y][location.x];
-    let collision = nextTile.className.startsWith('w');
+    let collision = nextTile.className.startsWith('w')
+      || nextTile.className == 'a';
     if (collision) {
       console.log("Damn wall!")
     }
@@ -117,17 +118,6 @@ export class ViewportComponent {
         return true;
       }
     })
-    return false;
-  }
-
-  isPlayerMove(event:KeyboardEvent) {
-    switch (event.keyCode) {
-      case Key.ARROW_DOWN:
-      case Key.ARROW_UP:
-      case Key.ARROW_LEFT:
-      case Key.ARROW_RIGHT:
-        return true;
-    }
     return false;
   }
 
@@ -153,25 +143,30 @@ export class ViewportComponent {
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event:KeyboardEvent) {
     event.preventDefault();
+    var playerMoved = false;
     switch (event.keyCode) {
       case Key.ARROW_DOWN:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.DOWN))) {
           this.playerService.move(Direction.DOWN);
+          playerMoved = true;
         }
         break;
       case Key.ARROW_UP:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.UP))) {
           this.playerService.move(Direction.UP);
+          playerMoved = true;
         }
         break;
       case Key.ARROW_LEFT:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.LEFT))) {
           this.playerService.move(Direction.LEFT);
+          playerMoved = true;
         }
         break;
       case Key.ARROW_RIGHT:
         if (!this.checkPlayerWallCollision(this.playerService.nextLocation(Direction.RIGHT))) {
           this.playerService.move(Direction.RIGHT);
+          playerMoved = true;
         }
         break;
       case Key.SPACE:
@@ -185,7 +180,7 @@ export class ViewportComponent {
     }
     if (this.canPlayerSelectNPC()) {
 
-    } else if (this.isPlayerMove(event)) {
+    } else if (playerMoved) {
       this.moveNPCs();
       if (this.checkPlayerNPCCollision()) {
         alert("Arrrrgh! I am DEAD.");
